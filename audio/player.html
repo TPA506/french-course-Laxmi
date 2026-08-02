@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Cours de Français A1 — Audio</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #fafafa; color: #1a1a1a; }
+  h1 { font-size: 1.6em; }
+  .controls-global { margin-bottom: 24px; }
+  .controls-global label { font-size: 0.9em; margin-right: 12px; }
+  select { padding: 4px 8px; }
+  .lesson { background: white; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 18px; padding: 16px 20px; }
+  .lesson h2 { font-size: 1.1em; margin: 0 0 10px 0; }
+  .phrase { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+  .phrase:last-child { border-bottom: none; }
+  .phrase-text { flex: 1; }
+  .phrase-fr { font-weight: 600; }
+  .phrase-en { color: #666; font-size: 0.9em; }
+  button.play { background: #1a73e8; color: white; border: none; border-radius: 20px; padding: 6px 14px; cursor: pointer; font-size: 0.85em; margin-left: 12px; }
+  button.play:hover { background: #1558b0; }
+  button.play-all { background: #34a853; }
+  .note { font-size: 0.85em; color: #888; margin-top: 20px; }
+</style>
+</head>
+<body>
+<h1>🔊 Cours de Français A1 — Audio (synthèse vocale)</h1>
+
+<div class="controls-global">
+  <label for="voiceSelect">Voix française :</label>
+  <select id="voiceSelect"></select>
+  <label for="rate">Vitesse :</label>
+  <select id="rate">
+    <option value="0.7">Lente</option>
+    <option value="0.85" selected>Normale</option>
+    <option value="1">Rapide</option>
+  </select>
+</div>
+
+<div id="lessons"></div>
+
+<p class="note">⚠️ Nécessite un navigateur avec synthèse vocale (Chrome/Edge recommandés). Cliquez sur ▶️ pour écouter chaque phrase.</p>
+
+<script>
+const data = [
+  { title: "Leçon 01 — Alphabet", phrases: [
+    ["Bonjour, je m'appelle Bhim.", "Hello, my name is Bhim."],
+    ["Le café, la mère, la fête, français, garçon.", "Coffee, the mother, the party, French, boy."]
+  ]},
+  { title: "Leçon 02 — Articles", phrases: [
+    ["Le chat mange.", "The cat eats."],
+    ["Une pomme rouge.", "A red apple."],
+    ["Les enfants jouent.", "The children play."]
+  ]},
+  { title: "Leçon 03 — Pronoms", phrases: [
+    ["Je suis légionnaire.", "I am a legionnaire."],
+    ["Elle travaille beaucoup.", "She works a lot."],
+    ["Nous mangeons ensemble.", "We eat together."]
+  ]},
+  { title: "Leçon 04 — Verbe être", phrases: [
+    ["Je suis Bhim.", "I am Bhim."],
+    ["Nous sommes légionnaires.", "We are legionnaires."],
+    ["Ils sont fatigués.", "They are tired."]
+  ]},
+  { title: "Leçon 05 — Verbe avoir", phrases: [
+    ["J'ai un chien.", "I have a dog."],
+    ["Tu as trente ans.", "You are thirty years old."],
+    ["Nous avons une entreprise.", "We have a business."]
+  ]},
+  { title: "Leçon 06 — Verbes en -ER", phrases: [
+    ["Je travaille à la Légion.", "I work at the Legion."],
+    ["Nous regardons des vidéos de chiens.", "We watch dog videos."],
+    ["Elle aime les animaux.", "She loves animals."]
+  ]},
+  { title: "Leçon 07 — Genre et nombre", phrases: [
+    ["Un petit chien, une petite chienne.", "A small dog (m/f)."],
+    ["Les chats sont contents.", "The cats are happy."]
+  ]},
+  { title: "Leçon 08 — Adjectifs possessifs", phrases: [
+    ["C'est mon entreprise.", "This is my business."],
+    ["Ma femme s'appelle Laxmi.", "My wife's name is Laxmi."],
+    ["Notre chaîne YouTube s'appelle HappyPaws Club.", "Our YouTube channel is called HappyPaws Club."]
+  ]},
+  { title: "Leçon 09 — Négation", phrases: [
+    ["Je ne parle pas anglais.", "I don't speak English."],
+    ["Nous n'avons pas de temps.", "We don't have time."],
+    ["Ce n'est pas facile.", "It's not easy."]
+  ]},
+  { title: "Leçon 10 — Questions", phrases: [
+    ["Où habites-tu ?", "Where do you live?"],
+    ["Combien ça coûte ?", "How much does it cost?"],
+    ["Qui est-ce ?", "Who is it?"]
+  ]}
+];
+
+let frenchVoices = [];
+
+function populateVoices() {
+  const voices = speechSynthesis.getVoices();
+  frenchVoices = voices.filter(v => v.lang.startsWith('fr'));
+  const select = document.getElementById('voiceSelect');
+  select.innerHTML = '';
+  if (frenchVoices.length === 0) {
+    select.innerHTML = '<option>Aucune voix française trouvée</option>';
+    return;
+  }
+  frenchVoices.forEach((v, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `${v.name} (${v.lang})`;
+    select.appendChild(opt);
+  });
+}
+
+speechSynthesis.onvoiceschanged = populateVoices;
+populateVoices();
+
+function speak(text) {
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  const voiceIndex = document.getElementById('voiceSelect').value;
+  if (frenchVoices[voiceIndex]) utter.voice = frenchVoices[voiceIndex];
+  utter.lang = 'fr-FR';
+  utter.rate = parseFloat(document.getElementById('rate').value);
+  speechSynthesis.speak(utter);
+}
+
+function speakAll(phrases) {
+  speechSynthesis.cancel();
+  let i = 0;
+  function next() {
+    if (i >= phrases.length) return;
+    const utter = new SpeechSynthesisUtterance(phrases[i][0]);
+    const voiceIndex = document.getElementById('voiceSelect').value;
+    if (frenchVoices[voiceIndex]) utter.voice = frenchVoices[voiceIndex];
+    utter.lang = 'fr-FR';
+    utter.rate = parseFloat(document.getElementById('rate').value);
+    utter.onend = () => { i++; next(); };
+    speechSynthesis.speak(utter);
+  }
+  next();
+}
+
+const container = document.getElementById('lessons');
+data.forEach(lesson => {
+  const div = document.createElement('div');
+  div.className = 'lesson';
+  const h2 = document.createElement('h2');
+  h2.textContent = lesson.title;
+  const playAllBtn = document.createElement('button');
+  playAllBtn.className = 'play play-all';
+  playAllBtn.textContent = '▶️ Tout écouter';
+  playAllBtn.onclick = () => speakAll(lesson.phrases);
+  h2.appendChild(playAllBtn);
+  div.appendChild(h2);
+
+  lesson.phrases.forEach(([fr, en]) => {
+    const p = document.createElement('div');
+    p.className = 'phrase';
+    p.innerHTML = `<div class="phrase-text"><div class="phrase-fr">${fr}</div><div class="phrase-en">${en}</div></div>`;
+    const btn = document.createElement('button');
+    btn.className = 'play';
+    btn.textContent = '▶️';
+    btn.onclick = () => speak(fr);
+    p.appendChild(btn);
+    div.appendChild(p);
+  });
+  container.appendChild(div);
+});
+</script>
+</body>
+</html>

@@ -26,6 +26,7 @@
 Tous les fichiers sont dans `/lecons/`. Chaque leçon a le format Markdown avec explications, exemples, et exercices.
 
 ## 🔊 Audio / Audio
+👉 [**Cliquez ici pour écouter les leçons**](audio/player.html)
 
 Ouvrez `audio/player.html` dans un navigateur pour écouter chaque phrase française lue à voix haute (synthèse vocale du navigateur, voix française `fr-FR`). Aucune connexion internet requise après le premier chargement (utilise l'API `SpeechSynthesis` intégrée au navigateur).
 

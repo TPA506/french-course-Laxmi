@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cours Niveau 1 — Laxmi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2340;
+    --paper:#FFFDF8;
+    --coral:#FF6B5B; --coral-soft:#FFE4E0;
+    --teal:#0FA3A3;  --teal-soft:#DFF6F5;
+    --violet:#8B5CF6; --violet-soft:#EEE7FE;
+    --amber:#F5A623; --amber-soft:#FEF1DA;
+    --green:#22B573; --green-soft:#DEF7EA;
+    --grey:#8A8FA3;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Nunito', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    padding:32px 16px 70px;
+  }
+  .stage{ max-width:680px; margin:0 auto; }
+
+  .top{ text-align:center; margin-bottom:30px; }
+  .top .badge{
+    display:inline-block; background:var(--ink); color:var(--paper);
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px;
+    padding:6px 16px; border-radius:999px; margin-bottom:10px;
+  }
+  .top h1{ font-family:'Baloo 2', sans-serif; font-weight:800; font-size:30px; }
+  .top p{ color:var(--grey); font-size:14px; margin-top:6px; }
+
+  .section{
+    background:#fff;
+    border-radius:24px;
+    padding:26px 24px;
+    margin-bottom:22px;
+    box-shadow:0 10px 26px rgba(27,35,64,0.06);
+  }
+  .section .head{
+    display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  }
+  .section .head .icon{
+    width:40px; height:40px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px;
+  }
+  .section .head h2{ font-family:'Baloo 2', sans-serif; font-weight:700; font-size:19px; }
+  .section .head p{ font-size:12px; color:var(--grey); }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .card{
+    border-radius:14px;
+    padding:14px 16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:default;
+  }
+  .card .fr{ font-family:'Baloo 2', sans-serif; font-weight:700; font-size:15px; }
+  .card .en{ font-size:12px; color:var(--grey); }
+
+  .num-row{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+  }
+  .num-card{
+    text-align:center;
+    border-radius:12px;
+    padding:12px 6px;
+  }
+  .num-card .n{ font-family:'Baloo 2', sans-serif; font-weight:800; font-size:20px; }
+  .num-card .w{ font-size:11px; font-weight:700; margin-top:2px; }
+
+  .swatch-row{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+  }
+  .swatch-card{
+    border-radius:14px;
+    overflow:hidden;
+    text-align:center;
+    border:2px solid #F0EFEA;
+  }
+  .swatch-card .block{ height:56px; }
+  .swatch-card .label{ padding:8px; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:13px; }
+
+  .day-list{ display:flex; flex-direction:column; gap:8px; }
+  .day-row{
+    display:flex; justify-content:space-between; align-items:center;
+    background:var(--amber-soft); border-radius:12px; padding:11px 16px;
+  }
+  .day-row .fr{ font-family:'Baloo 2', sans-serif; font-weight:700; font-size:14px; }
+  .day-row .en{ font-size:12px; color:var(--grey); }
+  .day-row.weekend{ background:#FCE0B8; }
+
+  .example-box{
+    background:var(--violet-soft);
+    border-radius:14px;
+    padding:14px 16px;
+    margin-top:14px;
+    font-size:13px;
+  }
+  .example-box b{ color:var(--violet); }
+
+  .cta{
+    text-align:center;
+    margin-top:32px;
+  }
+  .cta a{
+    display:inline-block;
+    background:linear-gradient(135deg, var(--coral), var(--violet));
+    color:#fff;
+    text-decoration:none;
+    padding:16px 36px;
+    border-radius:999px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    box-shadow:0 10px 24px rgba(139,92,246,0.28);
+  }
+  .cta p{ color:var(--grey); font-size:13px; margin-top:10px; }
+
+  @media(max-width:480px){
+    .grid{ grid-template-columns:1fr; }
+    .num-row{ grid-template-columns:repeat(4,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="top">
+    <div class="badge">📘 Réviser avant le test</div>
+    <h1>Cours — Niveau 1</h1>
+    <p>Salutations, nombres, couleurs, jours, mots du quotidien. Sans audio — juste lire et retenir.</p>
+  </div>
+
+  <!-- SALUTATIONS -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--coral-soft);">👋</div>
+      <div>
+        <h2 style="color:var(--coral)">Salutations & politesse</h2>
+        <p>Les mots qu'on utilise tout le temps</p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">Bonjour</span><span class="en">Hello / Good morning</span></div>
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">Bonsoir</span><span class="en">Good evening</span></div>
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">Au revoir</span><span class="en">Goodbye</span></div>
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">Merci</span><span class="en">Thank you</span></div>
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">S'il vous plaît</span><span class="en">Please</span></div>
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">Excusez-moi</span><span class="en">Excuse me</span></div>
+    </div>
+    <div class="example-box"><b>Astuce :</b> « Bonjour » se dit jusqu'au soir. Après environ 18h, on dit « Bonsoir ». « Au revoir » se dit seulement quand on part.</div>
+  </div>
+
+  <!-- NOMBRES -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--teal-soft);">🔢</div>
+      <div>
+        <h2 style="color:var(--teal)">Les nombres 1–20</h2>
+        <p>À connaître par cœur</p>
+      </div>
+    </div>
+    <div class="num-row">
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">1</div><div class="w">un</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">2</div><div class="w">deux</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">3</div><div class="w">trois</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">4</div><div class="w">quatre</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">5</div><div class="w">cinq</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">6</div><div class="w">six</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">7</div><div class="w">sept</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">8</div><div class="w">huit</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">9</div><div class="w">neuf</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">10</div><div class="w">dix</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">11</div><div class="w">onze</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">12</div><div class="w">douze</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">13</div><div class="w">treize</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">14</div><div class="w">quatorze</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">15</div><div class="w">quinze</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">16</div><div class="w">seize</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">17</div><div class="w">dix-sept</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">18</div><div class="w">dix-huit</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">19</div><div class="w">dix-neuf</div></div>
+      <div class="num-card" style="background:var(--teal-soft);"><div class="n">20</div><div class="w">vingt</div></div>
+    </div>
+    <div class="example-box"><b>Astuce :</b> à partir de 17, on entend le "10 + X" : dix-sept (10+7), dix-huit (10+8), dix-neuf (10+9).</div>
+  </div>
+
+  <!-- COULEURS -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--violet-soft);">🎨</div>
+      <div>
+        <h2 style="color:var(--violet)">Les couleurs</h2>
+        <p>Reconnaître la couleur, pas juste le mot</p>
+      </div>
+    </div>
+    <div class="swatch-row">
+      <div class="swatch-card"><div class="block" style="background:#E74C3C;"></div><div class="label">rouge</div></div>
+      <div class="swatch-card"><div class="block" style="background:#2E86DE;"></div><div class="label">bleu</div></div>
+      <div class="swatch-card"><div class="block" style="background:#F5C518;"></div><div class="label">jaune</div></div>
+      <div class="swatch-card"><div class="block" style="background:#27AE60;"></div><div class="label">vert</div></div>
+      <div class="swatch-card"><div class="block" style="background:#1B1B1B;"></div><div class="label">noir</div></div>
+      <div class="swatch-card"><div class="block" style="background:#F4F4F4; border-bottom:1px solid #eee;"></div><div class="label">blanc</div></div>
+      <div class="swatch-card"><div class="block" style="background:#F0932B;"></div><div class="label">orange</div></div>
+      <div class="swatch-card"><div class="block" style="background:#9B59B6;"></div><div class="label">violet</div></div>
+      <div class="swatch-card"><div class="block" style="background:#95A5A6;"></div><div class="label">gris</div></div>
+    </div>
+  </div>
+
+  <!-- JOURS -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--amber-soft);">📅</div>
+      <div>
+        <h2 style="color:var(--amber)">Les jours de la semaine</h2>
+        <p>Toujours dans le même ordre</p>
+      </div>
+    </div>
+    <div class="day-list">
+      <div class="day-row"><span class="fr">1. Lundi</span><span class="en">Monday</span></div>
+      <div class="day-row"><span class="fr">2. Mardi</span><span class="en">Tuesday</span></div>
+      <div class="day-row"><span class="fr">3. Mercredi</span><span class="en">Wednesday</span></div>
+      <div class="day-row"><span class="fr">4. Jeudi</span><span class="en">Thursday</span></div>
+      <div class="day-row"><span class="fr">5. Vendredi</span><span class="en">Friday</span></div>
+      <div class="day-row weekend"><span class="fr">6. Samedi</span><span class="en">Saturday — début du week-end</span></div>
+      <div class="day-row weekend"><span class="fr">7. Dimanche</span><span class="en">Sunday</span></div>
+    </div>
+  </div>
+
+  <!-- MOTS DU QUOTIDIEN -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--green-soft);">🏠</div>
+      <div>
+        <h2 style="color:var(--green)">Mots du quotidien</h2>
+        <p>Les objets qu'on voit tous les jours</p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card" style="background:var(--green-soft);"><span class="fr">🐕 Chien</span><span class="en">Dog</span></div>
+      <div class="card" style="background:var(--green-soft);"><span class="fr">🏠 Maison</span><span class="en">House</span></div>
+      <div class="card" style="background:var(--green-soft);"><span class="fr">📖 Livre</span><span class="en">Book</span></div>
+      <div class="card" style="background:var(--green-soft);"><span class="fr">🚗 Voiture</span><span class="en">Car</span></div>
+      <div class="card" style="background:var(--green-soft);"><span class="fr">💧 Eau</span><span class="en">Water</span></div>
+      <div class="card" style="background:var(--green-soft);"><span class="fr">🍞 Pain</span><span class="en">Bread</span></div>
+      <div class="card" style="background:var(--green-soft);"><span class="fr">🏫 École</span><span class="en">School</span></div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <a href="test-francais-niveau1.html">Je suis prête → Faire le test</a>
+    <p>16 questions tirées au hasard sur tout ce qui est ci-dessus.</p>
+  </div>
+
+</div>
+</body>
+</html>

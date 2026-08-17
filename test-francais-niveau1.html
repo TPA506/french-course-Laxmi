@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Français Niveau 1 — Laxmi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2340;
+    --paper:#FFFDF8;
+    --coral:#FF6B5B;
+    --coral-soft:#FFE4E0;
+    --teal:#0FA3A3;
+    --teal-soft:#DFF6F5;
+    --violet:#8B5CF6;
+    --violet-soft:#EEE7FE;
+    --amber:#F5A623;
+    --amber-soft:#FEF1DA;
+    --green:#22B573;
+    --green-soft:#DEF7EA;
+    --grey:#8A8FA3;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Nunito', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    padding:32px 16px 60px;
+    position:relative;
+    overflow-x:hidden;
+  }
+  body::before, body::after{
+    content:"";
+    position:fixed;
+    border-radius:50%;
+    filter:blur(60px);
+    opacity:0.35;
+    z-index:0;
+  }
+  body::before{
+    width:340px; height:340px;
+    background:var(--coral);
+    top:-120px; left:-100px;
+  }
+  body::after{
+    width:300px; height:300px;
+    background:var(--teal);
+    bottom:-100px; right:-100px;
+  }
+  .stage{
+    max-width:640px;
+    margin:0 auto;
+    position:relative;
+    z-index:1;
+  }
+
+  .top{
+    text-align:center;
+    margin-bottom:26px;
+  }
+  .top .badge{
+    display:inline-block;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    padding:6px 16px;
+    border-radius:999px;
+    letter-spacing:0.03em;
+    margin-bottom:10px;
+  }
+  .top h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:32px;
+  }
+  .top p{color:var(--grey); font-size:14px; margin-top:6px;}
+
+  .dots{
+    display:flex; justify-content:center; gap:8px; margin:20px 0 28px;
+  }
+  .dot{
+    width:12px; height:12px; border-radius:50%;
+    background:#E7E5E0;
+    transition:all .3s;
+  }
+  .dot.active{ transform:scale(1.35); }
+  .dot.done-ok{background:var(--green);}
+  .dot.done-no{background:var(--coral);}
+
+  .card{
+    background:#fff;
+    border-radius:26px;
+    padding:30px 28px;
+    box-shadow:0 12px 32px rgba(27,35,64,0.08);
+    border:2px solid transparent;
+  }
+
+  .cat-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:18px;
+  }
+
+  .visual{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:20px;
+    margin-bottom:20px;
+    padding:26px;
+    min-height:120px;
+  }
+  .visual.emoji{ font-size:64px; }
+  .visual.number{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:72px;
+    color:#fff;
+  }
+  .swatch{
+    width:110px; height:110px;
+    border-radius:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+  }
+
+  .prompt{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:21px;
+    text-align:center;
+    margin-bottom:22px;
+  }
+
+  .options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .opt{
+    background:#F7F6F2;
+    border:2px solid #F0EFEA;
+    border-radius:14px;
+    padding:16px 10px;
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--ink);
+    cursor:pointer;
+    transition:transform .15s, border-color .15s, background .15s;
+  }
+  .opt:hover{ transform:translateY(-2px); border-color:var(--teal); }
+  .opt.correct{ background:var(--green-soft); border-color:var(--green); color:#106B44; }
+  .opt.wrong{ background:var(--coral-soft); border-color:var(--coral); color:#B23A2C; }
+  .opt:disabled{ cursor:default; transform:none; }
+
+  .fill-row{ display:flex; gap:10px; }
+  .fill-row input{
+    flex:1;
+    border:2px solid #F0EFEA;
+    background:#F7F6F2;
+    border-radius:14px;
+    padding:14px 16px;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:16px;
+    color:var(--ink);
+  }
+  .fill-row input:focus{ outline:none; border-color:var(--teal); }
+  .fill-row button{
+    background:var(--ink);
+    color:#fff;
+    border:none;
+    border-radius:14px;
+    padding:0 24px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+  }
+  .fill-row button:disabled{ opacity:0.4; }
+
+  .feedback{
+    margin-top:18px;
+    padding:14px 16px;
+    border-radius:14px;
+    font-size:14px;
+    font-weight:600;
+    display:none;
+  }
+  .feedback.show{ display:block; }
+  .feedback.ok{ background:var(--green-soft); color:#106B44; }
+  .feedback.no{ background:var(--coral-soft); color:#B23A2C; }
+
+  .bottom-row{
+    display:flex;
+    justify-content:center;
+    margin-top:22px;
+  }
+  .next-btn{
+    background:var(--ink);
+    color:#fff;
+    border:none;
+    padding:13px 30px;
+    border-radius:999px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity .2s, transform .2s;
+  }
+  .next-btn.show{ opacity:1; transform:translateY(0); }
+
+  .intro{ text-align:center; }
+  .intro p{ color:var(--grey); font-size:15px; margin-bottom:18px; line-height:1.6; }
+  .cats-preview{
+    display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:24px;
+  }
+  .cats-preview span{
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:12px;
+    padding:7px 13px; border-radius:999px;
+  }
+  .start-btn{
+    background:linear-gradient(135deg, var(--coral), var(--violet));
+    color:#fff;
+    border:none;
+    padding:16px 34px;
+    border-radius:999px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 10px 24px rgba(139,92,246,0.28);
+  }
+  .start-btn:hover{ transform:translateY(-2px); }
+
+  .results{ text-align:center; }
+  .results .big-score{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:48px;
+    margin:14px 0 4px;
+    background:linear-gradient(135deg, var(--coral), var(--violet));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .results .sub{ color:var(--grey); font-size:14px; margin-bottom:24px; }
+  .cat-breakdown{ display:flex; flex-direction:column; gap:10px; text-align:left; margin-bottom:24px; }
+  .cat-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:12px 16px; border-radius:14px; background:#F7F6F2;
+  }
+  .cat-row .name{ font-weight:700; font-size:14px; display:flex; align-items:center; gap:8px; }
+  .cat-row .pct{ font-family:'Baloo 2', sans-serif; font-weight:700; font-size:15px; }
+  .swatch-dot{ width:14px; height:14px; border-radius:50%; display:inline-block; }
+  .verdict{
+    background:var(--amber-soft);
+    border-radius:16px;
+    padding:16px 20px;
+    font-size:14px;
+    margin-bottom:22px;
+    text-align:left;
+  }
+  .restart-btn{
+    background:transparent; border:2px solid #E7E5E0; color:var(--grey);
+    padding:11px 22px; border-radius:999px; font-family:'Baloo 2',sans-serif;
+    font-weight:700; font-size:14px; cursor:pointer;
+  }
+
+  @media(max-width:480px){
+    .card{ padding:24px 20px; }
+    .options{ grid-template-columns:1fr; }
+    .top h1{ font-size:26px; }
+    .visual.number{ font-size:56px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="top">
+    <div class="badge">🇫🇷 Français facile</div>
+    <h1>Niveau 1</h1>
+    <p>Pas de son, pas d'attente — juste des questions rapides.</p>
+  </div>
+  <div class="dots" id="dots"></div>
+  <div class="card" id="card"></div>
+</div>
+
+<script>
+const CATS = {
+  salut:  { name:"Salutations", color:"var(--coral)",  bg:"var(--coral-soft)"  },
+  nombre: { name:"Nombres",     color:"var(--teal)",    bg:"var(--teal-soft)"   },
+  couleur:{ name:"Couleurs",    color:"var(--violet)",  bg:"var(--violet-soft)" },
+  jour:   { name:"Jours",       color:"var(--amber)",   bg:"var(--amber-soft)"  },
+  objet:  { name:"Mots du quotidien", color:"var(--green)", bg:"var(--green-soft)" }
+};
+
+const QUESTIONS = [
+  { cat:"salut", type:"mcq", prompt:"« Bonjour » ça veut dire quoi ?",
+    options:["Hello / Good morning","Goodbye","Thank you"], answer:0,
+    visual:{type:"emoji", content:"👋"} },
+  { cat:"salut", type:"mcq", prompt:"On dit « Au revoir » quand...",
+    options:["on arrive","on part"], answer:1,
+    visual:{type:"emoji", content:"🚪"} },
+  { cat:"salut", type:"fill", prompt:"Comment dit-on « Thank you » en français ?",
+    accept:["merci"], visual:{type:"emoji", content:"🙏"} },
+
+  { cat:"nombre", type:"fill", prompt:"Écris ce nombre en français :",
+    accept:["sept"], visual:{type:"number", content:"7", color:"var(--teal)"} },
+  { cat:"nombre", type:"fill", prompt:"Écris ce nombre en français :",
+    accept:["douze"], visual:{type:"number", content:"12", color:"var(--teal)"} },
+  { cat:"nombre", type:"fill", prompt:"Écris ce nombre en français :",
+    accept:["vingt"], visual:{type:"number", content:"20", color:"var(--teal)"} },
+
+  { cat:"couleur", type:"fill", prompt:"Quelle est cette couleur ?",
+    accept:["rouge"], visual:{type:"swatch", content:"#E74C3C"} },
+  { cat:"couleur", type:"fill", prompt:"Quelle est cette couleur ?",
+    accept:["bleu"], visual:{type:"swatch", content:"#2E86DE"} },
+  { cat:"couleur", type:"fill", prompt:"Quelle est cette couleur ?",
+    accept:["jaune"], visual:{type:"swatch", content:"#F5C518"} },
+
+  { cat:"jour", type:"fill", prompt:"Quel jour vient après « lundi » ?",
+    accept:["mardi"], visual:{type:"emoji", content:"📅"} },
+  { cat:"jour", type:"mcq", prompt:"Quel est le premier jour du week-end en France ?",
+    options:["Vendredi","Samedi","Dimanche"], answer:1,
+    visual:{type:"emoji", content:"🎉"} },
+
+  { cat:"objet", type:"fill", prompt:"Comment dit-on ce mot en français ?",
+    accept:["chien"], visual:{type:"emoji", content:"🐕"} },
+  { cat:"objet", type:"fill", prompt:"Comment dit-on ce mot en français ?",
+    accept:["maison"], visual:{type:"emoji", content:"🏠"} },
+  { cat:"objet", type:"fill", prompt:"Comment dit-on ce mot en français ?",
+    accept:["livre"], visual:{type:"emoji", content:"📖"} },
+
+  { cat:"salut", type:"fill", prompt:"Comment dit-on « Good evening » ?",
+    accept:["bonsoir"], visual:{type:"emoji", content:"🌙"} },
+  { cat:"salut", type:"fill", prompt:"Comment dit-on « Please » ?",
+    accept:["s'il vous plait","sil vous plait","s'il vous plaît"], visual:{type:"emoji", content:"🤲"} },
+  { cat:"salut", type:"fill", prompt:"Comment dit-on « Excuse me » ?",
+    accept:["excusez-moi","excusez moi"], visual:{type:"emoji", content:"🙇"} },
+
+  { cat:"nombre", type:"fill", prompt:"Écris ce nombre en français :",
+    accept:["trois"], visual:{type:"number", content:"3", color:"var(--teal)"} },
+  { cat:"nombre", type:"fill", prompt:"Écris ce nombre en français :",
+    accept:["cinq"], visual:{type:"number", content:"5", color:"var(--teal)"} },
+  { cat:"nombre", type:"fill", prompt:"Écris ce nombre en français :",
+    accept:["neuf"], visual:{type:"number", content:"9", color:"var(--teal)"} },
+  { cat:"nombre", type:"fill", prompt:"Écris ce nombre en français :",
+    accept:["quinze"], visual:{type:"number", content:"15", color:"var(--teal)"} },
+  { cat:"nombre", type:"mcq", prompt:"Combien de jours dans une semaine ?",
+    options:["Cinq","Sept","Dix"], answer:1, visual:{type:"emoji", content:"🗓️"} },
+
+  { cat:"couleur", type:"fill", prompt:"Quelle est cette couleur ?",
+    accept:["vert","verte"], visual:{type:"swatch", content:"#27AE60"} },
+  { cat:"couleur", type:"fill", prompt:"Quelle est cette couleur ?",
+    accept:["noir","noire"], visual:{type:"swatch", content:"#1B1B1B"} },
+  { cat:"couleur", type:"fill", prompt:"Quelle est cette couleur ?",
+    accept:["blanc","blanche"], visual:{type:"swatch", content:"#F4F4F4"} },
+  { cat:"couleur", type:"fill", prompt:"Quelle est cette couleur ?",
+    accept:["orange"], visual:{type:"swatch", content:"#F0932B"} },
+
+  { cat:"jour", type:"fill", prompt:"Quel jour vient avant « samedi » ?",
+    accept:["vendredi"], visual:{type:"emoji", content:"📅"} },
+  { cat:"jour", type:"mcq", prompt:"Quel jour est un jour de repos religieux en France ?",
+    options:["Mardi","Dimanche","Jeudi"], answer:1, visual:{type:"emoji", content:"⛪"} },
+
+  { cat:"objet", type:"fill", prompt:"Comment dit-on ce mot en français ?",
+    accept:["eau"], visual:{type:"emoji", content:"💧"} },
+  { cat:"objet", type:"fill", prompt:"Comment dit-on ce mot en français ?",
+    accept:["pain"], visual:{type:"emoji", content:"🍞"} },
+  { cat:"objet", type:"fill", prompt:"Comment dit-on ce mot en français ?",
+    accept:["voiture"], visual:{type:"emoji", content:"🚗"} },
+  { cat:"objet", type:"fill", prompt:"Comment dit-on ce mot en français ?",
+    accept:["ecole","école"], visual:{type:"emoji", content:"🏫"} },
+];
+
+const QUESTIONS_PER_ROUND = 16;
+
+function shuffledQuestions(){
+  const pool = QUESTIONS.map((q,i)=>({...q, _i:i}));
+  for(let i = pool.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, QUESTIONS_PER_ROUND);
+}
+
+let idx = 0;
+let answered = false;
+let results = []; // {cat, correct}
+let ROUND = QUESTIONS.slice(0, QUESTIONS_PER_ROUND);
+
+function normalize(s){
+  return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+function renderDots(){
+  const el = document.getElementById('dots');
+  el.innerHTML = '';
+  ROUND.forEach((q,i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot';
+    if(i < idx){
+      d.classList.add(results[i] ? 'done-ok' : 'done-no');
+    } else if(i === idx){
+      d.classList.add('active');
+    }
+    el.appendChild(d);
+  });
+}
+
+function renderIntro(){
+  idx = 0; results = [];
+  const c = document.getElementById('card');
+  c.innerHTML = `
+    <div class="intro">
+      <div class="cats-preview">
+        ${Object.values(CATS).map(cc=>`<span style="background:${cc.bg};color:${cc.color}">${cc.name}</span>`).join('')}
+      </div>
+      <p>${QUESTIONS_PER_ROUND} questions tirées au hasard parmi ${QUESTIONS.length}. Salutations, nombres, couleurs, jours, mots du quotidien. Réponds vite, on verra ce qui est acquis.</p>
+      <button class="start-btn" onclick="startGame()">C'est parti !</button>
+      <div style="margin-top:14px;">
+        <a href="cours-niveau1.html" style="color:var(--grey); font-size:13px; font-weight:700; text-decoration:underline;">Pas prête ? Revoir le cours d'abord →</a>
+      </div>
+    </div>
+  `;
+  document.getElementById('dots').innerHTML = '';
+}
+
+function startGame(){
+  idx = 0; results = [];
+  ROUND = shuffledQuestions();
+  renderQuestion();
+}
+
+function visualHtml(v){
+  if(v.type === 'emoji'){
+    return `<div class="visual emoji" style="background:${CATS[currentQ().cat].bg}">${v.content}</div>`;
+  }
+  if(v.type === 'number'){
+    return `<div class="visual number" style="background:${v.color}">${v.content}</div>`;
+  }
+  if(v.type === 'swatch'){
+    return `<div class="visual" style="background:${CATS[currentQ().cat].bg}"><div class="swatch" style="background:${v.content}"></div></div>`;
+  }
+  return '';
+}
+
+function currentQ(){ return ROUND[idx]; }
+
+function renderQuestion(){
+  answered = false;
+  const q = currentQ();
+  const cat = CATS[q.cat];
+  const c = document.getElementById('card');
+
+  let body = '';
+  if(q.type === 'mcq'){
+    body = `<div class="options" id="opts">
+      ${q.options.map((o,i)=>`<button class="opt" data-i="${i}" onclick="answerMcq(${i})">${o}</button>`).join('')}
+    </div>`;
+  } else {
+    body = `<div class="fill-row">
+      <input type="text" id="fillInput" placeholder="Ta réponse..." onkeydown="if(event.key==='Enter') answerFill()">
+      <button id="fillBtn" onclick="answerFill()">OK</button>
+    </div>`;
+  }
+
+  c.innerHTML = `
+    <div class="cat-tag" style="background:${cat.bg}; color:${cat.color}">${cat.name}</div>
+    ${visualHtml(q.visual)}
+    <div class="prompt">${q.prompt}</div>
+    ${body}
+    <div class="feedback" id="feedback"></div>
+    <div class="bottom-row">
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  `;
+  renderDots();
+}
+
+function showFeedback(correct, correctText){
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback show ' + (correct ? 'ok' : 'no');
+  fb.textContent = correct ? '✓ Bravo !' : `✗ La réponse était : ${correctText}`;
+  document.getElementById('nextBtn').classList.add('show');
+}
+
+function answerMcq(i){
+  if(answered) return;
+  answered = true;
+  const q = currentQ();
+  const correct = i === q.answer;
+  document.querySelectorAll('#opts .opt').forEach((btn,bi)=>{
+    btn.disabled = true;
+    if(bi === q.answer) btn.classList.add('correct');
+    if(bi === i && !correct) btn.classList.add('wrong');
+  });
+  results[idx] = correct;
+  showFeedback(correct, q.options[q.answer]);
+}
+
+function answerFill(){
+  if(answered) return;
+  answered = true;
+  const q = currentQ();
+  const input = document.getElementById('fillInput');
+  const val = normalize(input.value);
+  const correct = q.accept.map(normalize).includes(val);
+  input.disabled = true;
+  document.getElementById('fillBtn').disabled = true;
+  input.style.borderColor = correct ? 'var(--green)' : 'var(--coral)';
+  results[idx] = correct;
+  showFeedback(correct, q.accept[0]);
+}
+
+function nextQuestion(){
+  if(idx < ROUND.length - 1){
+    idx++;
+    renderQuestion();
+  } else {
+    renderResults();
+  }
+}
+
+function renderResults(){
+  idx = ROUND.length;
+  renderDots();
+  const total = ROUND.length;
+  const correct = results.filter(Boolean).length;
+  const pct = Math.round(100*correct/total);
+
+  const catStats = {};
+  Object.keys(CATS).forEach(k=> catStats[k] = {c:0,t:0});
+  ROUND.forEach((q,i)=>{
+    catStats[q.cat].t++;
+    if(results[i]) catStats[q.cat].c++;
+  });
+
+  let verdict;
+  if(pct >= 85) verdict = "Niveau 1 acquis. On peut passer aux leçons de grammaire (le test complet A1).";
+  else if(pct >= 60) verdict = "Bien, mais quelques catégories à revoir avant de passer à la grammaire.";
+  else verdict = "Encore du vocabulaire de base à revoir avant de passer au niveau suivant.";
+
+  const rows = Object.entries(catStats).map(([k,s])=>{
+    const p = Math.round(100*s.c/s.t);
+    return `<div class="cat-row">
+      <div class="name"><span class="swatch-dot" style="background:${CATS[k].color}"></span>${CATS[k].name}</div>
+      <div class="pct" style="color:${CATS[k].color}">${p}%</div>
+    </div>`;
+  }).join('');
+
+  const c = document.getElementById('card');
+  c.innerHTML = `
+    <div class="results">
+      <div class="cat-tag" style="background:var(--violet-soft); color:var(--violet)">Résultat</div>
+      <div class="big-score">${correct}/${total}</div>
+      <div class="sub">${pct}% de bonnes réponses</div>
+      <div class="cat-breakdown">${rows}</div>
+      <div class="verdict">${verdict}</div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button class="restart-btn" onclick="renderIntro()">Recommencer</button>
+        <button class="restart-btn" style="background:#25D366; color:#fff; border-color:#25D366;" onclick="shareToWhatsapp(${correct}, ${total}, ${pct})">Envoyer mon résultat à Bhim</button>
+      </div>
+    </div>
+  `;
+}
+
+function shareToWhatsapp(correct, total, pct){
+  const date = new Date().toLocaleDateString('fr-FR');
+  const msg = `Résultat test Français Niveau 1 (${date}) : ${correct}/${total} bonnes réponses (${pct}%)`;
+  const url = `https://wa.me/33675574643?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+renderIntro();
+</script>
+</body>
+</html>

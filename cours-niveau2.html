@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cours Niveau 2 — Laxmi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2340;
+    --paper:#FFFDF8;
+    --coral:#FF6B5B; --coral-soft:#FFE4E0;
+    --teal:#0FA3A3;  --teal-soft:#DFF6F5;
+    --violet:#8B5CF6; --violet-soft:#EEE7FE;
+    --amber:#F5A623; --amber-soft:#FEF1DA;
+    --green:#22B573; --green-soft:#DEF7EA;
+    --pink:#EC4899; --pink-soft:#FCE3F1;
+    --blue:#3B82F6; --blue-soft:#E1EBFE;
+    --indigo:#6366F1; --indigo-soft:#E7E7FE;
+    --grey:#8A8FA3;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Nunito', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    padding:32px 16px 70px;
+  }
+  .stage{ max-width:680px; margin:0 auto; }
+
+  .top{ text-align:center; margin-bottom:30px; }
+  .top .badge{
+    display:inline-block; background:var(--indigo); color:#fff;
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px;
+    padding:6px 16px; border-radius:999px; margin-bottom:10px;
+  }
+  .top h1{ font-family:'Baloo 2', sans-serif; font-weight:800; font-size:30px; }
+  .top p{ color:var(--grey); font-size:14px; margin-top:6px; }
+
+  .section{
+    background:#fff;
+    border-radius:24px;
+    padding:26px 24px;
+    margin-bottom:22px;
+    box-shadow:0 10px 26px rgba(27,35,64,0.06);
+  }
+  .section .head{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+  .section .head .icon{
+    width:40px; height:40px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center; font-size:20px;
+  }
+  .section .head h2{ font-family:'Baloo 2', sans-serif; font-weight:700; font-size:19px; }
+  .section .head p{ font-size:12px; color:var(--grey); }
+
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .card{
+    border-radius:14px; padding:14px 16px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .card .fr{ font-family:'Baloo 2', sans-serif; font-weight:700; font-size:15px; }
+  .card .en{ font-size:12px; color:var(--grey); }
+
+  .conj-table{ display:flex; flex-direction:column; gap:6px; }
+  .conj-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:9px 16px; border-radius:10px;
+  }
+  .conj-row .pron{ font-weight:700; font-size:14px; }
+  .conj-row .form{ font-family:'Baloo 2', sans-serif; font-weight:800; font-size:15px; }
+
+  .num-row{ display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; }
+  .num-card{ text-align:center; border-radius:12px; padding:12px 6px; }
+  .num-card .n{ font-family:'Baloo 2', sans-serif; font-weight:800; font-size:18px; }
+  .num-card .w{ font-size:10.5px; font-weight:700; margin-top:2px; }
+
+  .example-box{
+    background:var(--indigo-soft); border-radius:14px; padding:14px 16px;
+    margin-top:14px; font-size:13px;
+  }
+  .example-box b{ color:var(--indigo); }
+
+  .phrase-list{ display:flex; flex-direction:column; gap:8px; }
+  .phrase-row{
+    background:var(--pink-soft); border-radius:12px; padding:11px 16px;
+  }
+  .phrase-row .fr{ font-family:'Baloo 2', sans-serif; font-weight:700; font-size:14px; }
+  .phrase-row .en{ font-size:12px; color:var(--grey); }
+
+  .cta{ text-align:center; margin-top:32px; }
+  .cta a{
+    display:inline-block;
+    background:linear-gradient(135deg, var(--indigo), var(--pink));
+    color:#fff; text-decoration:none;
+    padding:16px 36px; border-radius:999px;
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:16px;
+    box-shadow:0 10px 24px rgba(99,102,241,0.28);
+  }
+  .cta p{ color:var(--grey); font-size:13px; margin-top:10px; }
+
+  @media(max-width:480px){
+    .grid{ grid-template-columns:1fr; }
+    .num-row{ grid-template-columns:repeat(4,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="top">
+    <div class="badge">🎓 Un peu plus loin</div>
+    <h1>Cours — Niveau 2</h1>
+    <p>Articles, pronoms, être/avoir, verbes en -ER, la famille, les nombres 21–60, se présenter.</p>
+  </div>
+
+  <!-- ARTICLES -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--coral-soft);">🔤</div>
+      <div><h2 style="color:var(--coral)">Les articles</h2><p>un/une (indéfini), des (pluriel)</p></div>
+    </div>
+    <div class="grid">
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">un chien</span><span class="en">a dog (masc.)</span></div>
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">une pomme</span><span class="en">an apple (fem.)</span></div>
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">des enfants</span><span class="en">some children</span></div>
+      <div class="card" style="background:var(--coral-soft);"><span class="fr">des pommes</span><span class="en">some apples</span></div>
+    </div>
+    <div class="example-box"><b>Astuce :</b> « des » remplace « un/une » au pluriel — pas de version masculine/féminine séparée.</div>
+  </div>
+
+  <!-- PRONOMS -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--teal-soft);">👥</div>
+      <div><h2 style="color:var(--teal)">Les pronoms personnels</h2><p>Tous les sujets</p></div>
+    </div>
+    <div class="conj-table">
+      <div class="conj-row" style="background:var(--teal-soft);"><span class="pron">je</span><span class="form">I</span></div>
+      <div class="conj-row" style="background:var(--teal-soft);"><span class="pron">tu</span><span class="form">you (informal)</span></div>
+      <div class="conj-row" style="background:var(--teal-soft);"><span class="pron">il / elle</span><span class="form">he / she</span></div>
+      <div class="conj-row" style="background:var(--teal-soft);"><span class="pron">nous</span><span class="form">we</span></div>
+      <div class="conj-row" style="background:var(--teal-soft);"><span class="pron">vous</span><span class="form">you (formal/plural)</span></div>
+      <div class="conj-row" style="background:var(--teal-soft);"><span class="pron">ils / elles</span><span class="form">they (m/f)</span></div>
+    </div>
+  </div>
+
+  <!-- ETRE -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--violet-soft);">🧩</div>
+      <div><h2 style="color:var(--violet)">Le verbe être</h2><p>To be — irrégulier, à apprendre par cœur</p></div>
+    </div>
+    <div class="conj-table">
+      <div class="conj-row" style="background:var(--violet-soft);"><span class="pron">je</span><span class="form">suis</span></div>
+      <div class="conj-row" style="background:var(--violet-soft);"><span class="pron">tu</span><span class="form">es</span></div>
+      <div class="conj-row" style="background:var(--violet-soft);"><span class="pron">il / elle</span><span class="form">est</span></div>
+      <div class="conj-row" style="background:var(--violet-soft);"><span class="pron">nous</span><span class="form">sommes</span></div>
+      <div class="conj-row" style="background:var(--violet-soft);"><span class="pron">vous</span><span class="form">êtes</span></div>
+      <div class="conj-row" style="background:var(--violet-soft);"><span class="pron">ils / elles</span><span class="form">sont</span></div>
+    </div>
+  </div>
+
+  <!-- AVOIR -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--amber-soft);">🎒</div>
+      <div><h2 style="color:var(--amber)">Le verbe avoir</h2><p>To have — irrégulier aussi</p></div>
+    </div>
+    <div class="conj-table">
+      <div class="conj-row" style="background:var(--amber-soft);"><span class="pron">j'</span><span class="form">ai</span></div>
+      <div class="conj-row" style="background:var(--amber-soft);"><span class="pron">tu</span><span class="form">as</span></div>
+      <div class="conj-row" style="background:var(--amber-soft);"><span class="pron">il / elle</span><span class="form">a</span></div>
+      <div class="conj-row" style="background:var(--amber-soft);"><span class="pron">nous</span><span class="form">avons</span></div>
+      <div class="conj-row" style="background:var(--amber-soft);"><span class="pron">vous</span><span class="form">avez</span></div>
+      <div class="conj-row" style="background:var(--amber-soft);"><span class="pron">ils / elles</span><span class="form">ont</span></div>
+    </div>
+  </div>
+
+  <!-- VERBES -ER -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--green-soft);">⚡</div>
+      <div><h2 style="color:var(--green)">Les verbes en -ER</h2><p>Exemple avec « parler » — le modèle le plus courant</p></div>
+    </div>
+    <div class="conj-table">
+      <div class="conj-row" style="background:var(--green-soft);"><span class="pron">je</span><span class="form">parle</span></div>
+      <div class="conj-row" style="background:var(--green-soft);"><span class="pron">tu</span><span class="form">parles</span></div>
+      <div class="conj-row" style="background:var(--green-soft);"><span class="pron">il / elle</span><span class="form">parle</span></div>
+      <div class="conj-row" style="background:var(--green-soft);"><span class="pron">nous</span><span class="form">parlons</span></div>
+      <div class="conj-row" style="background:var(--green-soft);"><span class="pron">vous</span><span class="form">parlez</span></div>
+      <div class="conj-row" style="background:var(--green-soft);"><span class="pron">ils / elles</span><span class="form">parlent</span></div>
+    </div>
+    <div class="example-box"><b>Astuce :</b> je/tu/il/ils se prononcent presque pareil à l'oral. Applique le même modèle à « aimer » et « habiter ».</div>
+  </div>
+
+  <!-- FAMILLE -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--pink-soft);">👨‍👩‍👧‍👦</div>
+      <div><h2 style="color:var(--pink)">La famille</h2><p>Vocabulaire de base</p></div>
+    </div>
+    <div class="grid">
+      <div class="card" style="background:var(--pink-soft);"><span class="fr">👨 Père</span><span class="en">Father</span></div>
+      <div class="card" style="background:var(--pink-soft);"><span class="fr">👩 Mère</span><span class="en">Mother</span></div>
+      <div class="card" style="background:var(--pink-soft);"><span class="fr">👦 Frère</span><span class="en">Brother</span></div>
+      <div class="card" style="background:var(--pink-soft);"><span class="fr">👧 Sœur</span><span class="en">Sister</span></div>
+      <div class="card" style="background:var(--pink-soft);"><span class="fr">🤵 Mari</span><span class="en">Husband</span></div>
+      <div class="card" style="background:var(--pink-soft);"><span class="fr">👰 Femme</span><span class="en">Wife</span></div>
+    </div>
+  </div>
+
+  <!-- NOMBRES 21-60 -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--blue-soft);">🔢</div>
+      <div><h2 style="color:var(--blue)">Les nombres 21–60</h2><p>Par dizaines</p></div>
+    </div>
+    <div class="num-row">
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">21</div><div class="w">vingt et un</div></div>
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">22</div><div class="w">vingt-deux</div></div>
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">30</div><div class="w">trente</div></div>
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">35</div><div class="w">trente-cinq</div></div>
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">40</div><div class="w">quarante</div></div>
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">45</div><div class="w">quarante-cinq</div></div>
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">50</div><div class="w">cinquante</div></div>
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">55</div><div class="w">cinquante-cinq</div></div>
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">60</div><div class="w">soixante</div></div>
+      <div class="num-card" style="background:var(--blue-soft);"><div class="n">58</div><div class="w">cinquante-huit</div></div>
+    </div>
+    <div class="example-box"><b>Astuce :</b> « et un » seulement pour 21, 31, 41, 51. Pour les autres (22, 32...), c'est un tiret direct : vingt-deux.</div>
+  </div>
+
+  <!-- SE PRESENTER -->
+  <div class="section">
+    <div class="head">
+      <div class="icon" style="background:var(--indigo-soft);">🙋</div>
+      <div><h2 style="color:var(--indigo)">Se présenter</h2><p>Les phrases qu'on utilise en premier</p></div>
+    </div>
+    <div class="phrase-list">
+      <div class="phrase-row"><div class="fr">Je m'appelle Laxmi.</div><div class="en">My name is Laxmi.</div></div>
+      <div class="phrase-row"><div class="fr">Comment tu t'appelles ?</div><div class="en">What is your name?</div></div>
+      <div class="phrase-row"><div class="fr">J'ai vingt-cinq ans.</div><div class="en">I am 25 years old.</div></div>
+      <div class="phrase-row"><div class="fr">Quel âge as-tu ?</div><div class="en">How old are you?</div></div>
+      <div class="phrase-row"><div class="fr">Je viens du Népal.</div><div class="en">I come from Nepal.</div></div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <a href="test-francais-niveau2.html">Je suis prête → Faire le test</a>
+    <p>Questions tirées au hasard sur tout ce qui est ci-dessus.</p>
+  </div>
+
+</div>
+</body>
+</html>

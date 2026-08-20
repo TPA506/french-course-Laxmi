@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dictionnaire Français → Anglais</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 800px; margin: 30px auto; padding: 0 20px; background: #fafafa; color: #1a1a1a; }
+  h1 { font-size: 1.6em; text-align: center; margin-bottom: 6px; }
+  p.subtitle { color: #666; text-align: center; margin-bottom: 24px; }
+  #search { width: 100%; box-sizing: border-box; padding: 14px 16px; font-size: 1.1em; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 24px; }
+  #search:focus { outline: none; border-color: #1a73e8; }
+  .category { margin-bottom: 28px; }
+  .category h2 { font-size: 1.1em; background: #1a73e8; color: white; padding: 8px 14px; border-radius: 6px; }
+  .entry { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 10px 16px; margin-bottom: 8px; }
+  .fr { font-weight: 700; font-size: 1.05em; }
+  .en { color: #1a73e8; font-weight: 600; }
+  .def { color: #555; font-size: 0.9em; margin-top: 2px; }
+  .hidden { display: none; }
+  .count { text-align: center; color: #888; font-size: 0.9em; margin-bottom: 10px; }
+  .back { display: block; text-align: center; margin-top: 30px; color: #1a73e8; text-decoration: none; }
+</style>
+</head>
+<body>
+<h1>📖 Dictionnaire Français → Anglais</h1>
+<p class="subtitle">Pour Laxmi ❤️ — cherchez un mot ci-dessous</p>
+
+<input type="text" id="search" placeholder="🔍 Chercher un mot... (ex: chien, manger, rouge)">
+<p class="count" id="count"></p>
+
+<div id="dictionary"></div>
+
+<a class="back" href="../README.md">🏠 Retour au sommaire</a>
+
+<script>
+const data = [
+{ cat: "Salutations / Greetings", words: [
+  { fr: "Bonjour", en: "Hello / Good morning", def: "Used any time before evening." },
+  { fr: "Bonsoir", en: "Good evening", def: "Used in the evening." },
+  { fr: "Salut", en: "Hi / Bye", def: "Informal, used with friends." },
+  { fr: "Au revoir", en: "Goodbye", def: "Standard way to say goodbye." },
+  { fr: "Merci", en: "Thank you", def: "" },
+  { fr: "S'il vous plaît", en: "Please (formal)", def: "" },
+  { fr: "S'il te plaît", en: "Please (informal)", def: "" },
+  { fr: "De rien", en: "You're welcome", def: "" },
+  { fr: "Pardon", en: "Sorry / Excuse me", def: "" },
+  { fr: "Excusez-moi", en: "Excuse me", def: "Formal." },
+  { fr: "Oui", en: "Yes", def: "" },
+  { fr: "Non", en: "No", def: "" },
+  { fr: "Comment ça va ?", en: "How are you?", def: "" },
+  { fr: "Ça va bien", en: "I'm doing well", def: "" },
+]},
+{ cat: "Famille / Family", words: [
+  { fr: "La famille", en: "Family", def: "" },
+  { fr: "Le père", en: "Father", def: "" },
+  { fr: "La mère", en: "Mother", def: "" },
+  { fr: "Le fils", en: "Son", def: "" },
+  { fr: "La fille", en: "Daughter / Girl", def: "" },
+  { fr: "Le frère", en: "Brother", def: "" },
+  { fr: "La sœur", en: "Sister", def: "" },
+  { fr: "Le mari", en: "Husband", def: "" },
+  { fr: "La femme", en: "Wife / Woman", def: "" },
+  { fr: "Les enfants", en: "Children", def: "" },
+  { fr: "Le grand-père", en: "Grandfather", def: "" },
+  { fr: "La grand-mère", en: "Grandmother", def: "" },
+  { fr: "L'ami / l'amie", en: "Friend (m/f)", def: "" },
+]},
+{ cat: "Nombres / Numbers", words: [
+  { fr: "Un / Une", en: "One", def: "" },
+  { fr: "Deux", en: "Two", def: "" },
+  { fr: "Trois", en: "Three", def: "" },
+  { fr: "Quatre", en: "Four", def: "" },
+  { fr: "Cinq", en: "Five", def: "" },
+  { fr: "Six", en: "Six", def: "" },
+  { fr: "Sept", en: "Seven", def: "" },
+  { fr: "Huit", en: "Eight", def: "" },
+  { fr: "Neuf", en: "Nine", def: "" },
+  { fr: "Dix", en: "Ten", def: "" },
+  { fr: "Vingt", en: "Twenty", def: "" },
+  { fr: "Cent", en: "One hundred", def: "" },
+]},
+{ cat: "Couleurs / Colors", words: [
+  { fr: "Rouge", en: "Red", def: "" },
+  { fr: "Bleu(e)", en: "Blue", def: "" },
+  { fr: "Vert(e)", en: "Green", def: "" },
+  { fr: "Jaune", en: "Yellow", def: "" },
+  { fr: "Noir(e)", en: "Black", def: "" },
+  { fr: "Blanc(he)", en: "White", def: "" },
+  { fr: "Orange", en: "Orange", def: "" },
+  { fr: "Rose", en: "Pink", def: "" },
+  { fr: "Marron", en: "Brown", def: "" },
+  { fr: "Gris(e)", en: "Grey", def: "" },
+]},
+{ cat: "Animaux / Animals", words: [
+  { fr: "Le chien", en: "Dog", def: "" },
+  { fr: "Le chat", en: "Cat", def: "" },
+  { fr: "L'oiseau", en: "Bird", def: "" },
+  { fr: "Le cheval", en: "Horse", def: "" },
+  { fr: "La vache", en: "Cow", def: "" },
+  { fr: "Le poisson", en: "Fish", def: "" },
+  { fr: "Le lapin", en: "Rabbit", def: "" },
+]},
+{ cat: "Nourriture / Food", words: [
+  { fr: "Le pain", en: "Bread", def: "" },
+  { fr: "L'eau", en: "Water", def: "" },
+  { fr: "Le café", en: "Coffee", def: "" },
+  { fr: "Le riz", en: "Rice", def: "" },
+  { fr: "Le poulet", en: "Chicken", def: "" },
+  { fr: "Le poisson", en: "Fish", def: "(also means 'fish' as an animal)" },
+  { fr: "La pomme", en: "Apple", def: "" },
+  { fr: "Le fromage", en: "Cheese", def: "" },
+  { fr: "La viande", en: "Meat", def: "" },
+  { fr: "Le lait", en: "Milk", def: "" },
+  { fr: "Le sucre", en: "Sugar", def: "" },
+  { fr: "Le sel", en: "Salt", def: "" },
+]},
+{ cat: "Corps / Body", words: [
+  { fr: "La tête", en: "Head", def: "" },
+  { fr: "Les yeux", en: "Eyes", def: "" },
+  { fr: "La main", en: "Hand", def: "" },
+  { fr: "Le pied", en: "Foot", def: "" },
+  { fr: "Le cœur", en: "Heart", def: "" },
+  { fr: "Le ventre", en: "Belly / Stomach", def: "" },
+]},
+{ cat: "Temps / Time & Days", words: [
+  { fr: "Aujourd'hui", en: "Today", def: "" },
+  { fr: "Demain", en: "Tomorrow", def: "" },
+  { fr: "Hier", en: "Yesterday", def: "" },
+  { fr: "Le matin", en: "Morning", def: "" },
+  { fr: "Le soir", en: "Evening", def: "" },
+  { fr: "La nuit", en: "Night", def: "" },
+  { fr: "Lundi", en: "Monday", def: "" },
+  { fr: "Mardi", en: "Tuesday", def: "" },
+  { fr: "Mercredi", en: "Wednesday", def: "" },
+  { fr: "Jeudi", en: "Thursday", def: "" },
+  { fr: "Vendredi", en: "Friday", def: "" },
+  { fr: "Samedi", en: "Saturday", def: "" },
+  { fr: "Dimanche", en: "Sunday", def: "" },
+]},
+{ cat: "Verbes courants / Common Verbs", words: [
+  { fr: "Être", en: "To be", def: "Irregular verb — je suis, tu es, il est..." },
+  { fr: "Avoir", en: "To have", def: "Irregular verb — j'ai, tu as, il a..." },
+  { fr: "Aller", en: "To go", def: "Irregular verb — je vais, tu vas..." },
+  { fr: "Faire", en: "To do / to make", def: "Irregular verb — je fais, tu fais..." },
+  { fr: "Manger", en: "To eat", def: "Regular -ER verb." },
+  { fr: "Boire", en: "To drink", def: "" },
+  { fr: "Parler", en: "To speak", def: "Regular -ER verb." },
+  { fr: "Travailler", en: "To work", def: "Regular -ER verb." },
+  { fr: "Aimer", en: "To like / to love", def: "Regular -ER verb." },
+  { fr: "Regarder", en: "To watch / to look at", def: "Regular -ER verb." },
+  { fr: "Écouter", en: "To listen", def: "Regular -ER verb." },
+  { fr: "Habiter", en: "To live (somewhere)", def: "" },
+  { fr: "Vouloir", en: "To want", def: "Irregular verb." },
+  { fr: "Pouvoir", en: "To be able to / can", def: "Irregular verb." },
+]},
+{ cat: "Adjectifs courants / Common Adjectives", words: [
+  { fr: "Grand(e)", en: "Big / Tall", def: "" },
+  { fr: "Petit(e)", en: "Small", def: "" },
+  { fr: "Beau / Belle", en: "Beautiful", def: "" },
+  { fr: "Content(e)", en: "Happy", def: "" },
+  { fr: "Fatigué(e)", en: "Tired", def: "" },
+  { fr: "Facile", en: "Easy", def: "" },
+  { fr: "Difficile", en: "Difficult", def: "" },
+  { fr: "Nouveau / Nouvelle", en: "New", def: "" },
+  { fr: "Bon / Bonne", en: "Good", def: "" },
+  { fr: "Mauvais(e)", en: "Bad", def: "" },
+]},
+{ cat: "Maison / House", words: [
+  { fr: "La maison", en: "House", def: "" },
+  { fr: "La chambre", en: "Bedroom", def: "" },
+  { fr: "La cuisine", en: "Kitchen", def: "" },
+  { fr: "La porte", en: "Door", def: "" },
+  { fr: "La fenêtre", en: "Window", def: "" },
+  { fr: "La table", en: "Table", def: "" },
+  { fr: "La chaise", en: "Chair", def: "" },
+]},
+{ cat: "Lieux / Places", words: [
+  { fr: "La ville", en: "City / Town", def: "" },
+  { fr: "Le pays", en: "Country", def: "" },
+  { fr: "L'école", en: "School", def: "" },
+  { fr: "Le travail", en: "Work", def: "" },
+  { fr: "Le magasin", en: "Shop / Store", def: "" },
+  { fr: "La rue", en: "Street", def: "" },
+]},
+];
+
+const container = document.getElementById('dictionary');
+const countEl = document.getElementById('count');
+let totalWords = 0;
+
+data.forEach(section => {
+  const catDiv = document.createElement('div');
+  catDiv.className = 'category';
+  const h2 = document.createElement('h2');
+  h2.textContent = section.cat;
+  catDiv.appendChild(h2);
+
+  section.words.forEach(w => {
+    totalWords++;
+    const entry = document.createElement('div');
+    entry.className = 'entry';
+    entry.dataset.search = (w.fr + ' ' + w.en).toLowerCase();
+    entry.innerHTML = `<div class="fr">${w.fr} — <span class="en">${w.en}</span></div>` +
+      (w.def ? `<div class="def">${w.def}</div>` : '');
+    catDiv.appendChild(entry);
+  });
+  container.appendChild(catDiv);
+});
+
+countEl.textContent = totalWords + " mots au total";
+
+document.getElementById('search').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  document.querySelectorAll('.entry').forEach(e => {
+    e.classList.toggle('hidden', q && !e.dataset.search.includes(q));
+  });
+  document.querySelectorAll('.category').forEach(cat => {
+    const visible = cat.querySelectorAll('.entry:not(.hidden)').length;
+    cat.classList.toggle('hidden', q && visible === 0);
+  });
+});
+</script>
+</body>
+</html>

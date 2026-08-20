@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test de Vocabulaire par Thème</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    max-width: 700px; margin: 0 auto; padding: 20px;
+    background: linear-gradient(135deg, #fdf6ec 0%, #f0f7ff 100%);
+    color: #2a2a2a;
+    min-height: 100vh;
+  }
+  h1 { text-align: center; font-size: 1.7em; margin-bottom: 4px; }
+  p.subtitle { text-align: center; color: #666; margin-bottom: 24px; }
+
+  /* Category selection screen */
+  #categoryScreen .grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .cat-card {
+    border: none; border-radius: 16px; padding: 22px 12px;
+    color: white; font-size: 1.05em; font-weight: 700;
+    cursor: pointer; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    transition: transform 0.15s;
+  }
+  .cat-card:hover { transform: translateY(-3px); }
+  .cat-card .emoji { display: block; font-size: 1.8em; margin-bottom: 6px; }
+
+  /* Quiz screen */
+  #quizScreen, #resultScreen { display: none; }
+  .progress-bar { background: #e0e0e0; border-radius: 20px; height: 10px; margin-bottom: 20px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 20px; transition: width 0.3s; }
+  .question-card {
+    background: white; border-radius: 16px; padding: 28px 22px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08); text-align: center;
+  }
+  .question-word { font-size: 1.8em; font-weight: 800; margin-bottom: 6px; }
+  .question-hint { color: #888; margin-bottom: 22px; font-size: 0.95em; }
+  .options { display: grid; gap: 12px; }
+  .option-btn {
+    padding: 14px; font-size: 1.05em; border: 2px solid #ddd; border-radius: 10px;
+    background: #fafafa; cursor: pointer; transition: all 0.15s;
+  }
+  .option-btn:hover { border-color: #999; }
+  .option-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+  .option-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+  .feedback { margin-top: 16px; font-weight: 700; font-size: 1.1em; min-height: 26px; }
+  .next-btn {
+    margin-top: 18px; padding: 12px 28px; font-size: 1em; border: none;
+    border-radius: 10px; background: #1a73e8; color: white; cursor: pointer; display: none;
+  }
+  .back-link { display: block; text-align: center; margin-top: 24px; color: #1a73e8; text-decoration: none; }
+
+  /* Result screen */
+  #resultScreen { text-align: center; }
+  .score-circle {
+    width: 140px; height: 140px; border-radius: 50%; margin: 20px auto;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2em; font-weight: 800; color: white;
+  }
+  .retry-btn {
+    padding: 12px 26px; font-size: 1em; border: none; border-radius: 10px;
+    background: #1a73e8; color: white; cursor: pointer; margin: 8px;
+  }
+  .home-btn {
+    padding: 12px 26px; font-size: 1em; border: 2px solid #1a73e8; border-radius: 10px;
+    background: white; color: #1a73e8; cursor: pointer; margin: 8px;
+  }
+  .whatsapp-btn {
+    padding: 12px 26px; font-size: 1em; border: none; border-radius: 10px;
+    background: #25D366; color: white; cursor: pointer; margin: 8px;
+  }
+</style>
+</head>
+<body>
+
+<h1>🎯 Test de Vocabulaire</h1>
+<p class="subtitle">Pour Laxmi ❤️ — choisis un thème pour commencer</p>
+
+<div id="categoryScreen">
+  <div class="grid" id="catGrid"></div>
+</div>
+
+<div id="quizScreen">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="question-card">
+    <div class="question-hint" id="questionHint">Traduisez en anglais :</div>
+    <div class="question-word" id="questionWord">...</div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Suivant ➡️</button>
+  </div>
+</div>
+
+<div id="resultScreen">
+  <h2 id="resultTitle"></h2>
+  <div class="score-circle" id="scoreCircle"></div>
+  <p id="resultMsg"></p>
+  <button class="retry-btn" onclick="startQuiz(currentCategory)">🔁 Recommencer ce thème</button>
+  <button class="home-btn" onclick="showCategories()">🏠 Choisir un autre thème</button>
+  <br>
+  <button class="whatsapp-btn" id="whatsappBtn" onclick="sendToWhatsapp()">📲 Envoyer mon résultat à Bhim</button>
+</div>
+
+<a class="back-link" href="README.md">🏠 Retour au sommaire du cours</a>
+
+<script>
+const categories = [
+  { name: "Salutations", emoji: "👋", color: "#e74c3c", words: [
+    ["Bonjour","Hello / Good morning"],["Merci","Thank you"],["Au revoir","Goodbye"],
+    ["S'il vous plaît","Please"],["Pardon","Sorry"],["Oui","Yes"],["Non","No"],
+    ["De rien","You're welcome"],["Salut","Hi / Bye"],["Bonsoir","Good evening"]
+  ]},
+  { name: "Famille", emoji: "👨‍👩‍👧", color: "#9b59b6", words: [
+    ["La mère","Mother"],["Le père","Father"],["Le fils","Son"],["La fille","Daughter"],
+    ["Le frère","Brother"],["La sœur","Sister"],["Le mari","Husband"],["La femme","Wife"],
+    ["Les enfants","Children"],["L'ami","Friend"]
+  ]},
+  { name: "Nombres", emoji: "🔢", color: "#3498db", words: [
+    ["Un","One"],["Deux","Two"],["Trois","Three"],["Quatre","Four"],["Cinq","Five"],
+    ["Six","Six"],["Sept","Seven"],["Huit","Eight"],["Neuf","Nine"],["Dix","Ten"]
+  ]},
+  { name: "Couleurs", emoji: "🎨", color: "#e67e22", words: [
+    ["Rouge","Red"],["Bleu","Blue"],["Vert","Green"],["Jaune","Yellow"],["Noir","Black"],
+    ["Blanc","White"],["Orange","Orange"],["Rose","Pink"],["Gris","Grey"],["Marron","Brown"]
+  ]},
+  { name: "Animaux", emoji: "🐾", color: "#27ae60", words: [
+    ["Le chien","Dog"],["Le chat","Cat"],["L'oiseau","Bird"],["Le cheval","Horse"],
+    ["La vache","Cow"],["Le poisson","Fish"],["Le lapin","Rabbit"]
+  ]},
+  { name: "Nourriture", emoji: "🍽️", color: "#f39c12", words: [
+    ["Le pain","Bread"],["L'eau","Water"],["Le café","Coffee"],["Le riz","Rice"],
+    ["Le poulet","Chicken"],["La pomme","Apple"],["Le fromage","Cheese"],
+    ["La viande","Meat"],["Le lait","Milk"],["Le sucre","Sugar"]
+  ]},
+  { name: "Corps", emoji: "🧍", color: "#16a085", words: [
+    ["La tête","Head"],["Les yeux","Eyes"],["La main","Hand"],["Le pied","Foot"],
+    ["Le cœur","Heart"],["Le ventre","Belly"]
+  ]},
+  { name: "Temps", emoji: "📅", color: "#2980b9", words: [
+    ["Aujourd'hui","Today"],["Demain","Tomorrow"],["Hier","Yesterday"],
+    ["Le matin","Morning"],["Le soir","Evening"],["La nuit","Night"],
+    ["Lundi","Monday"],["Vendredi","Friday"],["Dimanche","Sunday"]
+  ]},
+  { name: "Verbes", emoji: "⚡", color: "#c0392b", words: [
+    ["Être","To be"],["Avoir","To have"],["Aller","To go"],["Faire","To do / make"],
+    ["Manger","To eat"],["Boire","To drink"],["Parler","To speak"],
+    ["Travailler","To work"],["Aimer","To like / love"],["Habiter","To live (somewhere)"]
+  ]},
+  { name: "Adjectifs", emoji: "✨", color: "#8e44ad", words: [
+    ["Grand","Big / Tall"],["Petit","Small"],["Beau","Beautiful"],["Content","Happy"],
+    ["Fatigué","Tired"],["Facile","Easy"],["Difficile","Difficult"],["Bon","Good"]
+  ]},
+  { name: "Maison", emoji: "🏠", color: "#2c3e50", words: [
+    ["La maison","House"],["La chambre","Bedroom"],["La cuisine","Kitchen"],
+    ["La porte","Door"],["La fenêtre","Window"],["La table","Table"],["La chaise","Chair"]
+  ]},
+  { name: "Lieux", emoji: "📍", color: "#d35400", words: [
+    ["La ville","City / Town"],["Le pays","Country"],["L'école","School"],
+    ["Le travail","Work"],["Le magasin","Shop"],["La rue","Street"]
+  ]},
+];
+
+let currentCategory = null;
+let questions = [];
+let currentQ = 0;
+let score = 0;
+
+function buildCategoryGrid() {
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = '';
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-card';
+    btn.style.background = cat.color;
+    btn.innerHTML = `<span class="emoji">${cat.emoji}</span>${cat.name}`;
+    btn.onclick = () => startQuiz(cat);
+    grid.appendChild(btn);
+  });
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz(cat) {
+  currentCategory = cat;
+  questions = shuffle(cat.words);
+  currentQ = 0;
+  score = 0;
+  document.getElementById('categoryScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'block';
+  document.getElementById('progressFill').style.background = cat.color;
+  showQuestion();
+}
+
+function showQuestion() {
+  const [word, answer] = questions[currentQ];
+  document.getElementById('questionWord').textContent = word;
+  document.getElementById('questionWord').style.color = currentCategory.color;
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('nextBtn').style.display = 'none';
+
+  const pct = (currentQ / questions.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  // Build wrong options from other words in same category
+  const others = currentCategory.words.filter(w => w[1] !== answer).map(w => w[1]);
+  const wrongOptions = shuffle(others).slice(0, 3);
+  const allOptions = shuffle([answer, ...wrongOptions]);
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  allOptions.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(btn, opt, answer);
+    container.appendChild(btn);
+  });
+}
+
+function selectAnswer(btn, selected, correct) {
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(b => b.onclick = null);
+  if (selected === correct) {
+    btn.classList.add('correct');
+    document.getElementById('feedback').textContent = '✅ Bravo !';
+    document.getElementById('feedback').style.color = '#28a745';
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    buttons.forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+    document.getElementById('feedback').textContent = '❌ La bonne réponse : ' + correct;
+    document.getElementById('feedback').style.color = '#dc3545';
+  }
+  document.getElementById('nextBtn').style.display = 'inline-block';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) {
+    showResult();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById('quizScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'block';
+  const pct = Math.round((score / questions.length) * 100);
+  document.getElementById('scoreCircle').style.background = currentCategory.color;
+  document.getElementById('scoreCircle').textContent = score + '/' + questions.length;
+
+  let msg = '';
+  if (pct === 100) msg = '🌟 Parfait ! Tu maîtrises ce thème !';
+  else if (pct >= 70) msg = '👏 Très bien joué !';
+  else if (pct >= 40) msg = '💪 Continue à réviser, tu progresses !';
+  else msg = '📚 Reprends ce thème, tu vas y arriver !';
+
+  document.getElementById('resultTitle').textContent = currentCategory.emoji + ' ' + currentCategory.name;
+  document.getElementById('resultMsg').textContent = msg + ' (' + pct + '%)';
+}
+
+function sendToWhatsapp() {
+  const pct = Math.round((score / questions.length) * 100);
+  const msg = `Salut Bhim ! J'ai fini le test "${currentCategory.name}" : ${score}/${questions.length} (${pct}%) 🎉`;
+  const phone = "33675574643"; // 06 75 57 46 43 -> format international France
+  window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function showCategories() {
+  document.getElementById('resultScreen').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'none';
+  document.getElementById('categoryScreen').style.display = 'block';
+}
+
+buildCategoryGrid();
+</script>
+</body>
+</html>

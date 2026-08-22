@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversations de Base — Pratique Orale</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    max-width: 750px; margin: 0 auto; padding: 20px;
+    background: linear-gradient(135deg, #fdf6ec 0%, #f0f7ff 100%);
+    color: #2a2a2a;
+  }
+  h1 { text-align: center; font-size: 1.7em; margin-bottom: 4px; }
+  p.subtitle { text-align: center; color: #666; margin-bottom: 10px; }
+  .instructions {
+    background: #fff3cd; border: 1px solid #ffe69c; border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 24px; font-size: 0.95em; color: #664d03;
+  }
+  .voice-select { text-align: center; margin-bottom: 20px; }
+  .voice-select select { padding: 8px; border-radius: 6px; border: 1px solid #ccc; }
+
+  .dialogue-block { margin-bottom: 30px; }
+  .dialogue-title {
+    color: white; padding: 10px 16px; border-radius: 10px 10px 0 0;
+    font-weight: 700; font-size: 1.1em;
+  }
+  .dialogue-body {
+    background: white; border-radius: 0 0 10px 10px; padding: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  }
+  .line {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid #f0f0f0;
+  }
+  .line:last-child { border-bottom: none; }
+  .speaker {
+    flex-shrink: 0; width: 60px; font-weight: 700; font-size: 0.85em;
+    padding-top: 4px;
+  }
+  .speaker.a { color: #1a73e8; }
+  .speaker.b { color: #e74c3c; }
+  .line-content { flex: 1; }
+  .fr-text { font-size: 1.05em; font-weight: 600; }
+  .en-text { font-size: 0.85em; color: #888; margin-top: 2px; }
+  .play-btn {
+    flex-shrink: 0; border: none; background: #1a73e8; color: white;
+    width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1em;
+  }
+  .play-btn:hover { background: #1558b0; }
+  .play-btn.playing { background: #e74c3c; }
+  .play-all-btn {
+    display: block; margin: 10px auto 0; padding: 8px 20px; border: none;
+    border-radius: 8px; background: #555; color: white; cursor: pointer; font-size: 0.9em;
+  }
+  .back-link { display: block; text-align: center; margin-top: 24px; color: #1a73e8; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<h1>💬 Conversations de Base</h1>
+<p class="subtitle">Pour Laxmi ❤️ — écoute, puis répète avec Bhim à voix haute</p>
+
+<div class="instructions">
+  📢 <b>Comment faire :</b> Clique sur le bouton ▶️ pour écouter une phrase. Écoute-la 2-3 fois,
+  puis répète-la à voix haute. Ensuite, pratique le dialogue en entier avec Bhim :
+  toi tu joues "B" (rouge), lui joue "A" (bleu) — puis inversez les rôles !
+</div>
+
+<div class="voice-select">
+  🔊 Voix : <select id="voiceSelect"></select>
+</div>
+
+<div id="dialogues"></div>
+
+<a class="back-link" href="README.md">🏠 Retour au sommaire du cours</a>
+
+<script>
+const dialogues = [
+  {
+    title: "1. Se présenter", color: "#e74c3c",
+    lines: [
+      { s: "A", fr: "Bonjour ! Comment tu t'appelles ?", en: "Hello! What's your name?" },
+      { s: "B", fr: "Je m'appelle Laxmi. Et toi ?", en: "My name is Laxmi. And you?" },
+      { s: "A", fr: "Moi, c'est Bhim. Enchanté !", en: "I'm Bhim. Nice to meet you!" },
+      { s: "B", fr: "Enchantée aussi !", en: "Nice to meet you too!" },
+      { s: "A", fr: "Tu viens d'où ?", en: "Where are you from?" },
+      { s: "B", fr: "Je viens du Népal.", en: "I'm from Nepal." },
+    ]
+  },
+  {
+    title: "2. Comment ça va ?", color: "#3498db",
+    lines: [
+      { s: "A", fr: "Salut ! Comment ça va ?", en: "Hi! How are you?" },
+      { s: "B", fr: "Ça va bien, merci. Et toi ?", en: "I'm doing well, thanks. And you?" },
+      { s: "A", fr: "Ça va, merci.", en: "I'm fine, thanks." },
+      { s: "B", fr: "Qu'est-ce que tu fais aujourd'hui ?", en: "What are you doing today?" },
+      { s: "A", fr: "Je travaille toute la journée.", en: "I'm working all day." },
+    ]
+  },
+  {
+    title: "3. Parler de la famille", color: "#9b59b6",
+    lines: [
+      { s: "A", fr: "Tu as des frères et sœurs ?", en: "Do you have brothers and sisters?" },
+      { s: "B", fr: "Oui, j'ai un frère et une sœur.", en: "Yes, I have a brother and a sister." },
+      { s: "A", fr: "Ils habitent où ?", en: "Where do they live?" },
+      { s: "B", fr: "Ils habitent au Népal, avec mes parents.", en: "They live in Nepal, with my parents." },
+      { s: "A", fr: "Tu leur parles souvent ?", en: "Do you talk to them often?" },
+      { s: "B", fr: "Oui, tous les week-ends.", en: "Yes, every weekend." },
+    ]
+  },
+  {
+    title: "4. Faire les courses", color: "#f39c12",
+    lines: [
+      { s: "A", fr: "Bonjour, je cherche du pain.", en: "Hello, I'm looking for bread." },
+      { s: "B", fr: "Le pain est là-bas, à droite.", en: "The bread is over there, on the right." },
+      { s: "A", fr: "Merci ! Combien coûte ce fromage ?", en: "Thanks! How much is this cheese?" },
+      { s: "B", fr: "Il coûte cinq euros.", en: "It costs five euros." },
+      { s: "A", fr: "D'accord, je le prends.", en: "Okay, I'll take it." },
+    ]
+  },
+  {
+    title: "5. Parler de la météo", color: "#27ae60",
+    lines: [
+      { s: "A", fr: "Il fait beau aujourd'hui !", en: "The weather is nice today!" },
+      { s: "B", fr: "Oui, il fait du soleil.", en: "Yes, it's sunny." },
+      { s: "A", fr: "Il va pleuvoir demain, je crois.", en: "It's going to rain tomorrow, I think." },
+      { s: "B", fr: "Ah bon ? Il fait froid aussi.", en: "Really? It's cold too." },
+    ]
+  },
+  {
+    title: "6. Parler de la journée", color: "#16a085",
+    lines: [
+      { s: "A", fr: "Qu'est-ce que tu as fait aujourd'hui ?", en: "What did you do today?" },
+      { s: "B", fr: "J'ai étudié le français toute la matinée.", en: "I studied French all morning." },
+      { s: "A", fr: "Super ! Tu as bien travaillé ?", en: "Great! Did you work well?" },
+      { s: "B", fr: "Oui, j'ai fait le test de vocabulaire.", en: "Yes, I did the vocabulary test." },
+      { s: "A", fr: "Bravo, je suis fier de toi !", en: "Well done, I'm proud of you!" },
+    ]
+  },
+  {
+    title: "7. Au téléphone", color: "#2980b9",
+    lines: [
+      { s: "A", fr: "Allô ? Tu m'entends bien ?", en: "Hello? Can you hear me well?" },
+      { s: "B", fr: "Oui, je t'entends très bien.", en: "Yes, I hear you very well." },
+      { s: "A", fr: "Tu me manques beaucoup.", en: "I miss you a lot." },
+      { s: "B", fr: "Tu me manques aussi, mon amour.", en: "I miss you too, my love." },
+      { s: "A", fr: "On se parle demain ?", en: "Shall we talk tomorrow?" },
+      { s: "B", fr: "Oui, à demain !", en: "Yes, see you tomorrow!" },
+    ]
+  },
+];
+
+// Speech synthesis setup
+let voices = [];
+function loadVoices() {
+  voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('fr'));
+  const select = document.getElementById('voiceSelect');
+  select.innerHTML = '';
+  if (voices.length === 0) {
+    select.innerHTML = '<option>Voix française non trouvée</option>';
+    return;
+  }
+  voices.forEach((v, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = v.name + ' (' + v.lang + ')';
+    select.appendChild(opt);
+  });
+}
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+function speak(text, btn) {
+  speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  const select = document.getElementById('voiceSelect');
+  if (voices.length > 0) {
+    utterance.voice = voices[select.value] || voices[0];
+  }
+  utterance.lang = 'fr-FR';
+  utterance.rate = 0.9;
+  if (btn) {
+    btn.classList.add('playing');
+    utterance.onend = () => btn.classList.remove('playing');
+  }
+  speechSynthesis.speak(utterance);
+}
+
+function speakAll(dialogueLines, btn) {
+  speechSynthesis.cancel();
+  let i = 0;
+  function next() {
+    if (i >= dialogueLines.length) return;
+    const utterance = new SpeechSynthesisUtterance(dialogueLines[i]);
+    const select = document.getElementById('voiceSelect');
+    if (voices.length > 0) utterance.voice = voices[select.value] || voices[0];
+    utterance.lang = 'fr-FR';
+    utterance.rate = 0.9;
+    utterance.onend = () => { i++; setTimeout(next, 400); };
+    speechSynthesis.speak(utterance);
+  }
+  next();
+}
+
+// Build the page
+const container = document.getElementById('dialogues');
+dialogues.forEach(d => {
+  const block = document.createElement('div');
+  block.className = 'dialogue-block';
+
+  const title = document.createElement('div');
+  title.className = 'dialogue-title';
+  title.style.background = d.color;
+  title.textContent = d.title;
+  block.appendChild(title);
+
+  const body = document.createElement('div');
+  body.className = 'dialogue-body';
+
+  d.lines.forEach(line => {
+    const lineDiv = document.createElement('div');
+    lineDiv.className = 'line';
+
+    const speaker = document.createElement('div');
+    speaker.className = 'speaker ' + line.s.toLowerCase();
+    speaker.textContent = line.s === 'A' ? 'Bhim' : 'Laxmi';
+    lineDiv.appendChild(speaker);
+
+    const content = document.createElement('div');
+    content.className = 'line-content';
+    content.innerHTML = `<div class="fr-text">${line.fr}</div><div class="en-text">${line.en}</div>`;
+    lineDiv.appendChild(content);
+
+    const btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.textContent = '▶️';
+    btn.onclick = () => speak(line.fr, btn);
+    lineDiv.appendChild(btn);
+
+    body.appendChild(lineDiv);
+  });
+
+  const playAllBtn = document.createElement('button');
+  playAllBtn.className = 'play-all-btn';
+  playAllBtn.textContent = '▶️ Écouter tout le dialogue';
+  playAllBtn.onclick = () => speakAll(d.lines.map(l => l.fr));
+  body.appendChild(playAllBtn);
+
+  block.appendChild(body);
+  container.appendChild(block);
+});
+</script>
+</body>
+</html>

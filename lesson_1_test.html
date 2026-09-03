@@ -1,0 +1,367 @@
+---
+layout: default
+title: Test - Leçon 1 - Saluer
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Leçon 1 - Saluer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE5CC 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .page-header {
+            background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .page-header h1 { font-family: 'Baloo 2', sans-serif; font-size: 28px; margin-bottom: 5px; }
+        .page-header p { font-size: 14px; opacity: 0.9; }
+        .section-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 18px;
+            background: #FFA500;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+        .exercise {
+            background: #F9F9F9;
+            padding: 20px;
+            border-left: 4px solid #FFD700;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .exercise-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .question {
+            background: #FFF9F0;
+            padding: 12px;
+            margin: 10px 0;
+            border-left: 3px solid #FF8C00;
+            border-radius: 4px;
+        }
+        .question-text { font-weight: 600; color: #333; margin-bottom: 8px; }
+        .dialogue-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin: 8px 0;
+        }
+        .play-btn {
+            flex-shrink: 0;
+            border: none;
+            background: #FFA500;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-btn:hover { background: #FF8C00; }
+        .play-btn.playing { background: #FF4500; }
+        input[type="text"], input[type="radio"] { margin-right: 8px; }
+        input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            border: 2px solid #FFD700;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Nunito', sans-serif;
+            margin-top: 5px;
+        }
+        .options {
+            margin: 10px 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            margin: 5px 0;
+            background: #FFF9F0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option:hover { background: #FFE5CC; }
+        .results {
+            display: none;
+            background: #F0FFF0;
+            border: 2px solid #4CAF50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .results.show { display: block; }
+        .score-box {
+            background: white;
+            border: 2px solid #FFA500;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FF8C00;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            background: #FFA500;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover { background: #FF8C00; transform: translateY(-2px); }
+        .whatsapp-btn {
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .whatsapp-btn:hover { background: #1FAB56; }
+        .back-link { margin-top: 30px; text-align: center; }
+        .back-link a { color: #FFA500; text-decoration: none; font-weight: 600; }
+        .voice-select { text-align: center; margin-bottom: 20px; background: #FFF0E6; padding: 10px; border-radius: 5px; }
+        .voice-select select { padding: 6px; border-radius: 4px; border: 1px solid #FFA500; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>🎯 Test - Leçon 1</h1>
+            <p>Saluer et se présenter en français</p>
+        </div>
+
+        <div class="voice-select">
+            🔊 <strong>Voix:</strong> <select id="voiceSelect"></select>
+        </div>
+
+        <form id="testForm">
+            <div class="section-title">Question 1: Écoutez et identifiez</div>
+            <div class="exercise">
+                <div class="exercise-title">Cliquez ▶️ et choisissez la réponse correcte</div>
+                
+                <div class="question">
+                    <div class="question-text">Quel est le bon salut?</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Bonjour, je m\'appelle Lucinda. Et vous?', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                </div>
+
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q1" value="a">
+                        <span>A) C'est une présentation en français ✓</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="b">
+                        <span>B) C'est une salutation en espagnol</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="c">
+                        <span>C) C'est un au revoir</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section-title">Question 2: Complétez le dialogue</div>
+            <div class="exercise">
+                <div class="question">
+                    <div class="question-text">Dialogue 1:</div>
+                    <p style="margin: 8px 0; font-style: italic;">- "Bonjour, Paul. Ça va?"</p>
+                    <p style="margin: 8px 0;">- "Ça va bien, merci. Et _______?"</p>
+                    <input type="text" id="q2" placeholder="Écrivez le mot manquant...">
+                </div>
+            </div>
+
+            <div class="section-title">Question 3: Écoutez et complétez</div>
+            <div class="exercise">
+                <div class="question">
+                    <div class="question-text">Écoutez la phrase et remplissez le blanc:</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Au revoir, Lucinda! À bientôt!', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                </div>
+                <p style="margin: 10px 0; font-weight: 600;">- "_______, Lucinda! À bientôt!"</p>
+                <input type="text" id="q3" placeholder="Écrivez la salutation..." maxlength="20">
+            </div>
+
+            <div class="section-title">Question 4: Présentez-vous</div>
+            <div class="exercise">
+                <div class="question">
+                    <div class="question-text">Écoutez l'exemple et écrivez votre propre présentation:</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Bonjour, je m\'appelle Bhim. Je suis soldat. Et vous?', this)">▶️</button>
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 4px;">Exemple</div>
+                            <div style="font-style: italic; font-size: 13px;">"Bonjour, je m'appelle Bhim. Je suis soldat. Et vous?"</div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin: 10px 0; font-weight: 600;">Votre présentation:</p>
+                <input type="text" id="q4" placeholder="Bonjour, je m'appelle... Et vous?" style="max-width: 100%;">
+            </div>
+
+            <div class="buttons">
+                <button type="button" onclick="checkAnswers()">📋 Vérifier les réponses</button>
+                <button type="button" class="whatsapp-btn" onclick="shareViaWhatsApp()" id="whatsappBtn" style="display: none;">
+                    📱 Envoyer via WhatsApp
+                </button>
+            </div>
+        </form>
+
+        <div class="results" id="results">
+            <h3 style="color: #4CAF50; margin-bottom: 15px;">✓ Résultats du test</h3>
+            <div class="score-box" id="scoreBox"></div>
+            <div id="detailResults"></div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Retour au menu principal</a>
+        </div>
+    </div>
+
+    <script>
+        // Voice synthesis
+        let voices = [];
+        function loadVoices() {
+            voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('fr'));
+            const select = document.getElementById('voiceSelect');
+            select.innerHTML = '';
+            if (voices.length === 0) {
+                select.innerHTML = '<option>Voix française non trouvée</option>';
+                return;
+            }
+            voices.forEach((v, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = v.name;
+                select.appendChild(opt);
+            });
+        }
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        function speak(text, btn) {
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const select = document.getElementById('voiceSelect');
+            if (voices.length > 0) {
+                utterance.voice = voices[select.value] || voices[0];
+            }
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.9;
+            if (btn) {
+                btn.classList.add('playing');
+                utterance.onend = () => btn.classList.remove('playing');
+            }
+            speechSynthesis.speak(utterance);
+        }
+
+        let testScore = 0;
+
+        function checkAnswers() {
+            let score = 0;
+            let total = 4;
+            let results = '';
+
+            // Q1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            if (q1 && q1.value === 'a') {
+                score += 1;
+                results += '✓ Q1: Correct!<br>';
+            } else {
+                results += '✗ Q1: La réponse est A<br>';
+            }
+
+            // Q2
+            const q2 = document.getElementById('q2').value.toLowerCase().trim();
+            if (q2 === 'vous' || q2 === 'toi') {
+                score += 1;
+                results += '✓ Q2: Correct!<br>';
+            } else {
+                results += '✗ Q2: La réponse est "vous"<br>';
+            }
+
+            // Q3
+            const q3 = document.getElementById('q3').value.toLowerCase().trim();
+            if (q3 === 'au revoir' || q3 === 'aurevoir' || q3 === 'adieu') {
+                score += 1;
+                results += '✓ Q3: Correct!<br>';
+            } else {
+                results += '✗ Q3: La réponse est "Au revoir"<br>';
+            }
+
+            // Q4
+            const q4 = document.getElementById('q4').value.trim();
+            if (q4.toLowerCase().includes('je m\'appelle') && q4.toLowerCase().includes('bonjour')) {
+                score += 1;
+                results += '✓ Q4: Bon travail!<br>';
+            } else {
+                results += '✗ Q4: Doit commencer par "Bonjour" et inclure "je m\'appelle"<br>';
+            }
+
+            testScore = score;
+            const percentage = Math.round((score / total) * 100);
+
+            document.getElementById('scoreBox').innerHTML = `Score: ${score}/${total} (${percentage}%)`;
+            document.getElementById('detailResults').innerHTML = results;
+            document.getElementById('results').classList.add('show');
+            document.getElementById('whatsappBtn').style.display = 'flex';
+
+            window.scrollTo({ top: document.getElementById('results').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function shareViaWhatsApp() {
+            const score = testScore;
+            const total = 4;
+            const percentage = Math.round((score / total) * 100);
+            const message = encodeURIComponent(
+                `Test Leçon 1 - Saluer ✓\n\n` +
+                `Résultat: ${score}/${total} (${percentage}%)\n\n` +
+                `Merci Bhim pour les leçons! 🇫🇷`
+            );
+            window.open(`https://wa.me/?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>

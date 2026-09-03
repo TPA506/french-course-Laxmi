@@ -1,0 +1,348 @@
+---
+layout: default
+title: Test Alphabet - A à Z (Écouter et écrire)
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Alphabet - A à Z</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE5CC 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .page-header {
+            background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .page-header h1 { font-family: 'Baloo 2', sans-serif; font-size: 28px; margin-bottom: 5px; }
+        .page-header p { font-size: 14px; opacity: 0.9; }
+        .instructions {
+            background: #FFF0E6;
+            border: 2px solid #FFD700;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+        }
+        .section-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 18px;
+            background: #FFA500;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .letter-item {
+            background: #FFF9F0;
+            border: 3px solid #FFD700;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        .letter-number {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+        .play-btn {
+            border: none;
+            background: #FFA500;
+            color: white;
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        .play-btn:hover { background: #FF8C00; }
+        .play-btn.playing { background: #FF4500; }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #FFD700;
+            border-radius: 4px;
+            font-size: 16px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        input[type="text"].correct {
+            background: #90EE90;
+            border-color: #4CAF50;
+        }
+        input[type="text"].incorrect {
+            background: #FFB6C6;
+            border-color: #E74C3C;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        button {
+            background: #FFA500;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover { background: #FF8C00; transform: translateY(-2px); }
+        .whatsapp-btn {
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .whatsapp-btn:hover { background: #1FAB56; }
+        .results {
+            display: none;
+            background: #F0FFF0;
+            border: 2px solid #4CAF50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .results.show { display: block; }
+        .score-box {
+            background: white;
+            border: 2px solid #FFA500;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FF8C00;
+        }
+        .back-link { margin-top: 30px; text-align: center; }
+        .back-link a { color: #FFA500; text-decoration: none; font-weight: 600; }
+        .voice-select { text-align: center; margin-bottom: 20px; background: #FFF0E6; padding: 10px; border-radius: 5px; }
+        .voice-select select { padding: 6px; border-radius: 4px; border: 1px solid #FFA500; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>📚 Test Alphabet</h1>
+            <p>A à Z - Écoutez et écrivez - Pour Laxmi ❤️</p>
+        </div>
+
+        <div class="instructions">
+            🔊 Clique sur ▶️ pour écouter chaque lettre. Écris la lettre que tu entends!
+        </div>
+
+        <div class="voice-select">
+            🔊 <strong>Voix:</strong> <select id="voiceSelect"></select>
+        </div>
+
+        <div class="section-title">Écoutez et écrivez les lettres</div>
+
+        <form id="testForm">
+            <div class="alphabet-grid" id="alphabetGrid"></div>
+        </form>
+
+        <div class="controls">
+            <button onclick="checkAnswers()">✓ Vérifier les réponses</button>
+            <button type="button" class="whatsapp-btn" onclick="shareViaWhatsApp()" id="whatsappBtn" style="display: none;">
+                📱 Envoyer via WhatsApp
+            </button>
+        </div>
+
+        <div class="results" id="results">
+            <h3 style="color: #4CAF50; margin-bottom: 15px;">✓ Résultats</h3>
+            <div class="score-box" id="scoreBox"></div>
+            <p id="resultMessage" style="text-align: center; font-size: 16px; color: #333;"></p>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Retour au menu principal</a>
+        </div>
+    </div>
+
+    <script>
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const frenchNames = {
+            'A': 'a', 'B': 'bé', 'C': 'cé', 'D': 'dé', 'E': 'e', 'F': 'eff',
+            'G': 'gé', 'H': 'ache', 'I': 'i', 'J': 'ji', 'K': 'ka', 'L': 'ell',
+            'M': 'emme', 'N': 'enne', 'O': 'o', 'P': 'pé', 'Q': 'ku', 'R': 'erre',
+            'S': 'esse', 'T': 'té', 'U': 'u', 'V': 'vé', 'W': 'double vé', 'X': 'iks',
+            'Y': 'i grec', 'Z': 'zed'
+        };
+
+        let voices = [];
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('fr'));
+            const select = document.getElementById('voiceSelect');
+            select.innerHTML = '';
+            if (voices.length === 0) {
+                select.innerHTML = '<option>Voix française non trouvée</option>';
+                return;
+            }
+            voices.forEach((v, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = v.name;
+                select.appendChild(opt);
+            });
+        }
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        function speak(text, btn) {
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const select = document.getElementById('voiceSelect');
+            if (voices.length > 0) {
+                utterance.voice = voices[select.value] || voices[0];
+            }
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.9;
+            if (btn) {
+                btn.classList.add('playing');
+                utterance.onend = () => btn.classList.remove('playing');
+            }
+            speechSynthesis.speak(utterance);
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function createAlphabetGrid() {
+            const grid = document.getElementById('alphabetGrid');
+            grid.innerHTML = '';
+
+            const shuffledAlphabet = shuffleArray(alphabet);
+            shuffledAlphabet.forEach((letter, index) => {
+                const item = document.createElement('div');
+                item.className = 'letter-item';
+
+                const number = document.createElement('div');
+                number.className = 'letter-number';
+                number.textContent = `Question ${index + 1}/26`;
+                item.appendChild(number);
+
+                const playBtn = document.createElement('button');
+                playBtn.type = 'button';
+                playBtn.className = 'play-btn';
+                playBtn.textContent = '▶️ Écouter';
+                playBtn.onclick = (e) => {
+                    e.preventDefault();
+                    speak(frenchNames[letter], playBtn);
+                };
+                item.appendChild(playBtn);
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `letter-${letter}`;
+                input.placeholder = '?';
+                input.maxLength = '1';
+                input.value = '';
+                item.appendChild(input);
+
+                grid.appendChild(item);
+            });
+        }
+
+        let finalScore = 0;
+
+        function checkAnswers() {
+            let score = 0;
+            const total = 26;
+
+            alphabet.forEach(letter => {
+                const input = document.getElementById(`letter-${letter}`);
+                const value = input.value.toUpperCase().trim();
+
+                if (value === letter) {
+                    score++;
+                    input.classList.remove('incorrect');
+                    input.classList.add('correct');
+                } else {
+                    input.classList.remove('correct');
+                    input.classList.add('incorrect');
+                }
+            });
+
+            finalScore = score;
+            const percentage = Math.round((score / total) * 100);
+
+            document.getElementById('scoreBox').innerHTML = 
+                `Score: ${score}/26 (${percentage}%)`;
+            
+            let message = '';
+            if (score === 26) {
+                message = '🌟 Parfait! 100% — Excellent travail!';
+            } else if (score >= 23) {
+                message = '👏 Très bien! (88%+) — Presque parfait!';
+            } else if (score >= 20) {
+                message = '✓ Bien! (77%+) — Bonne progression!';
+            } else if (score >= 13) {
+                message = '📚 Moyen (50%+) — Continue à pratiquer!';
+            } else {
+                message = '💪 À travailler! — Pratique plus souvent!';
+            }
+            
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('results').classList.add('show');
+            document.getElementById('whatsappBtn').style.display = 'flex';
+
+            window.scrollTo({ top: document.getElementById('results').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function shareViaWhatsApp() {
+            const percentage = Math.round((finalScore / 26) * 100);
+            const message = encodeURIComponent(
+                `Test Alphabet A-Z ✓\n\n` +
+                `Résultat: ${finalScore}/26 (${percentage}%)\n\n` +
+                `Merci Bhim pour la leçon! 🇫🇷`
+            );
+            window.open(`https://wa.me/33675574643?text=${message}`, '_blank');
+        }
+
+        // Initialize
+        createAlphabetGrid();
+    </script>
+</body>
+</html>

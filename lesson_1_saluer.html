@@ -1,0 +1,275 @@
+---
+layout: default
+title: Leçon 1 - Saluer
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leçon 1 - Saluer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE5CC 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #FFA500;
+            padding-bottom: 20px;
+        }
+        .unit-circle { width: 70px; height: 70px; background: #FFD700; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; color: white; flex-shrink: 0; }
+        .header h1 { font-family: 'Baloo 2', sans-serif; font-size: 32px; color: #333; }
+        .section-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 20px;
+            background: #FFA500;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+        }
+        .exercise {
+            background: #F9F9F9;
+            padding: 20px;
+            border-left: 4px solid #FFD700;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .exercise-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .dialogue-box {
+            background: #FFF9F0;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            font-style: italic;
+            color: #555;
+        }
+        .options {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .option-box {
+            background: white;
+            border: 2px solid #FFA500;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option-box:hover { background: #FFE5CC; transform: translateY(-2px); }
+        input[type="checkbox"] { margin-right: 8px; }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #FFD700;
+            border-radius: 5px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+        }
+        .word-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        .word-chip {
+            background: #FFE5CC;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: 2px solid #FFA500;
+        }
+        button {
+            background: #FFA500;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        button:hover { background: #FF8C00; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .vocabulary {
+            background: #FFF0E6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .vocab-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dotted #FFD700;
+        }
+        .vocab-item:last-child { border-bottom: none; }
+        .fr-word { font-weight: 600; color: #FF8C00; }
+        .back-link { margin-top: 30px; }
+        .back-link a { color: #FFA500; text-decoration: none; font-weight: 600; }
+        .back-link a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="unit-circle">1</div>
+            <div>
+                <h1>Leçon 1 - Saluer</h1>
+                <p style="color: #666; margin-top: 5px;">Apprenez à saluer et vous présenter en français</p>
+            </div>
+        </div>
+
+        <div class="section-title">📚 Vocabulaire</div>
+        <div class="vocabulary">
+            <div class="vocab-item">
+                <span class="fr-word">Bonjour</span>
+                <span>Hello (daytime greeting)</span>
+            </div>
+            <div class="vocab-item">
+                <span class="fr-word">Bonsoir</span>
+                <span>Good evening</span>
+            </div>
+            <div class="vocab-item">
+                <span class="fr-word">Bonne nuit</span>
+                <span>Good night</span>
+            </div>
+            <div class="vocab-item">
+                <span class="fr-word">Au revoir</span>
+                <span>Goodbye</span>
+            </div>
+            <div class="vocab-item">
+                <span class="fr-word">À bientôt</span>
+                <span>See you soon</span>
+            </div>
+            <div class="vocab-item">
+                <span class="fr-word">Ça va?</span>
+                <span>How are you? (informal)</span>
+            </div>
+            <div class="vocab-item">
+                <span class="fr-word">Je m'appelle...</span>
+                <span>My name is...</span>
+            </div>
+            <div class="vocab-item">
+                <span class="fr-word">Et vous?</span>
+                <span>And you? (formal)</span>
+            </div>
+        </div>
+
+        <div class="section-title">🎯 LES SALUTATIONS</div>
+        
+        <div class="exercise">
+            <div class="exercise-title">Exercice 1: Identifiez la bonne salutation</div>
+            <p>Lisez les dialogues. Qui se présente en français?</p>
+            <div class="dialogue-box">
+                <strong>A.</strong> "Bonjour, je m'appelle Lucinda. Et vous?"
+            </div>
+            <div class="dialogue-box">
+                <strong>B.</strong> "¡Hola! Me llamo Juan. ¿Y tú?"
+            </div>
+            <div class="dialogue-box">
+                <strong>C.</strong> "Olá, em dic Anna. I tu?"
+            </div>
+            <p style="margin-top: 15px;"><strong>Réponse: </strong><input type="text" placeholder="A, B ou C?"></p>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">Exercice 2: Complétez les salutations</div>
+            <p>Complétez avec: <strong>bonjour</strong> • <strong>au revoir</strong> • <strong>ça va</strong> • <strong>bonsoir</strong> • <strong>salut</strong></p>
+            
+            <p><strong>Exemple:</strong> "Bonjour, je m'appelle Sylvie. - Moi, je m'appelle Annie."</p>
+            
+            <div style="margin-top: 15px;">
+                <p><strong>A.</strong> "_____________, Paul. _____________?"</p>
+                <input type="text" placeholder="Réponse 1">
+                <p style="margin-top: 10px;">- "Salut Julie. Ça va!"</p>
+                
+                <p style="margin-top: 15px;"><strong>B.</strong> "_____________, Patrick!"</p>
+                <input type="text" placeholder="Réponse 2">
+                <p style="margin-top: 10px;">- "Au revoir, Jacques!"</p>
+                
+                <p style="margin-top: 15px;"><strong>C.</strong> "_____________, monsieur Durand. Vous allez bien?"</p>
+                <input type="text" placeholder="Réponse 3">
+                <p style="margin-top: 10px;">- "Oui, merci. Bonsoir, madame Ming."</p>
+            </div>
+        </div>
+
+        <div class="section-title">🎓 LES PRÉSENTATIONS</div>
+        
+        <div class="exercise">
+            <div class="exercise-title">Exercice 3: Présentez-vous</div>
+            <p>Écrivez votre présentation en français:</p>
+            <p style="margin-top: 10px; font-style: italic;">Exemple: "Bonjour, je m'appelle Bhim. Je suis soldat. Et vous?"</p>
+            <input type="text" placeholder="Votre présentation...">
+        </div>
+
+        <div class="section-title">🏫 LES OBJETS DE LA CLASSE</div>
+        
+        <div class="exercise">
+            <div class="exercise-title">Exercice 4: Identifiez les objets</div>
+            <p>Écrivez les objets de la classe:</p>
+            <div class="word-list">
+                <span class="word-chip">une chaise</span>
+                <span class="word-chip">une table</span>
+                <span class="word-chip">un tableau</span>
+                <span class="word-chip">un ordinateur</span>
+                <span class="word-chip">une tablette</span>
+                <span class="word-chip">un smartphone</span>
+                <span class="word-chip">un livre</span>
+                <span class="word-chip">un stylo</span>
+            </div>
+            
+            <p style="margin-top: 20px;"><strong>Dans la salle:</strong></p>
+            <input type="text" placeholder="1. __________">
+            <input type="text" placeholder="2. __________">
+            <input type="text" placeholder="3. __________">
+        </div>
+
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #FFE5CC; text-align: center;">
+            <button onclick="document.querySelector('.verify').style.display='block'">✓ Vérifier vos réponses</button>
+            <div class="verify" style="display: none; background: #F0FFF0; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                <h3 style="color: #228B22; margin-bottom: 10px;">Corriger ✓</h3>
+                <p><strong>Exercice 1:</strong> Réponse: <strong>A</strong></p>
+                <p><strong>Exercice 2:</strong> A) Bonjour, Ça va? | B) Bonsoir | C) Bonsoir</p>
+                <p><strong>Exercice 4:</strong> Objets possibles: chaise, table, tableau, ordinateur, etc.</p>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Retour au menu principal</a>
+        </div>
+    </div>
+
+    <script>
+        // Partager sur WhatsApp
+        function shareViaWhatsApp() {
+            const message = encodeURIComponent("J'ai terminé la Leçon 1 - Saluer! 🇫🇷");
+            window.open(`https://wa.me/?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>

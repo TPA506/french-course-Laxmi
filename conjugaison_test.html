@@ -1,0 +1,383 @@
+---
+layout: default
+title: Test - Conjugaison
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Conjugaison - Présent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .page-header {
+            background: linear-gradient(135deg, #43A047 0%, #2E7D32 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .page-header h1 { font-family: 'Baloo 2', sans-serif; font-size: 28px; margin-bottom: 5px; }
+        .page-header p { font-size: 14px; opacity: 0.9; }
+        .section-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 18px;
+            background: #43A047;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+        .exercise {
+            background: #F9F9F9;
+            padding: 20px;
+            border-left: 4px solid #A5D6A7;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .exercise-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .question {
+            background: #F1F8F6;
+            padding: 12px;
+            margin: 10px 0;
+            border-left: 3px solid #43A047;
+            border-radius: 4px;
+        }
+        .dialogue-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin: 8px 0;
+        }
+        .play-btn {
+            flex-shrink: 0;
+            border: none;
+            background: #43A047;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-btn:hover { background: #2E7D32; }
+        .play-btn.playing { background: #1B5E20; }
+        input[type="text"] {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: 2px solid #A5D6A7;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Nunito', sans-serif;
+            margin-top: 5px;
+        }
+        .results {
+            display: none;
+            background: #F0FFF0;
+            border: 2px solid #4CAF50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .results.show { display: block; }
+        .score-box {
+            background: white;
+            border: 2px solid #43A047;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            background: #43A047;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover { background: #2E7D32; transform: translateY(-2px); }
+        .whatsapp-btn {
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .whatsapp-btn:hover { background: #1FAB56; }
+        .back-link { margin-top: 30px; text-align: center; }
+        .back-link a { color: #43A047; text-decoration: none; font-weight: 600; }
+        .voice-select { text-align: center; margin-bottom: 20px; background: #E8F5E9; padding: 10px; border-radius: 5px; }
+        .voice-select select { padding: 6px; border-radius: 4px; border: 1px solid #43A047; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>🎯 Test - Conjugaison</h1>
+            <p>Présent de l'indicatif - Pour Laxmi ❤️</p>
+        </div>
+
+        <div class="voice-select">
+            🔊 <strong>Voix:</strong> <select id="voiceSelect"></select>
+        </div>
+
+        <form id="testForm">
+            <div class="section-title">Groupe 1: Verbes en -ER (parler, aimer, travailler)</div>
+            <div class="exercise">
+                <div class="exercise-title">Conjuguez le verbe PARLER au présent</div>
+                
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">1. Je _________ français (parler)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Je parle français', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q1" placeholder="Conjugaison (je...)...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">2. Tu _________ bien (parler)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Tu parles bien', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q2" placeholder="Conjugaison (tu...)...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">3. Il _________ français (parler)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Il parle français', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q3" placeholder="Conjugaison (il...)...">
+                </div>
+            </div>
+
+            <div class="section-title">Groupe 2: Verbes en -IR (finir, choisir)</div>
+            <div class="exercise">
+                <div class="exercise-title">Conjuguez le verbe FINIR au présent</div>
+                
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">4. Je _________ mon travail (finir)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Je finis mon travail', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q4" placeholder="Conjugaison...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">5. Nous _________ à l'école (finir)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Nous finissons à l école', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q5" placeholder="Conjugaison...">
+                </div>
+            </div>
+
+            <div class="section-title">Groupe 3: Verbes en -RE (vendre, attendre)</div>
+            <div class="exercise">
+                <div class="exercise-title">Conjuguez le verbe VENDRE au présent</div>
+                
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">6. Je _________ ma maison (vendre)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Je vends ma maison', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q6" placeholder="Conjugaison...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">7. Ils _________ les fruits (vendre)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Ils vendent les fruits', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q7" placeholder="Conjugaison...">
+                </div>
+            </div>
+
+            <div class="section-title">Verbes irréguliers: ÊTRE et AVOIR</div>
+            <div class="exercise">
+                <div class="exercise-title">Conjuguez ÊTRE et AVOIR au présent</div>
+                
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">8. Je _________ français (être)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Je suis français', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q8" placeholder="Conjugaison...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">9. Tu _________ un livre (avoir)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Tu as un livre', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q9" placeholder="Conjugaison...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">10. Nous _________ fatiguées (être)</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Nous sommes fatigués', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q10" placeholder="Conjugaison...">
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="button" onclick="checkAnswers()">📋 Vérifier les réponses</button>
+                <button type="button" class="whatsapp-btn" onclick="shareViaWhatsApp()" id="whatsappBtn" style="display: none;">
+                    📱 Envoyer via WhatsApp
+                </button>
+            </div>
+        </form>
+
+        <div class="results" id="results">
+            <h3 style="color: #2E7D32; margin-bottom: 15px;">✓ Résultats du test</h3>
+            <div class="score-box" id="scoreBox"></div>
+            <div id="detailResults"></div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Retour au menu principal</a>
+        </div>
+    </div>
+
+    <script>
+        let voices = [];
+        function loadVoices() {
+            voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('fr'));
+            const select = document.getElementById('voiceSelect');
+            select.innerHTML = '';
+            if (voices.length === 0) {
+                select.innerHTML = '<option>Voix française non trouvée</option>';
+                return;
+            }
+            voices.forEach((v, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = v.name;
+                select.appendChild(opt);
+            });
+        }
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        function speak(text, btn) {
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const select = document.getElementById('voiceSelect');
+            if (voices.length > 0) {
+                utterance.voice = voices[select.value] || voices[0];
+            }
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.9;
+            if (btn) {
+                btn.classList.add('playing');
+                utterance.onend = () => btn.classList.remove('playing');
+            }
+            speechSynthesis.speak(utterance);
+        }
+
+        let testScore = 0;
+
+        function checkAnswers() {
+            let score = 0;
+            let total = 10;
+            let results = '';
+
+            const answers = {
+                q1: 'parle',
+                q2: 'parles',
+                q3: 'parle',
+                q4: 'finis',
+                q5: 'finissons',
+                q6: 'vends',
+                q7: 'vendent',
+                q8: 'suis',
+                q9: 'as',
+                q10: 'sommes'
+            };
+
+            for (let i = 1; i <= 10; i++) {
+                const input = document.getElementById(`q${i}`);
+                const value = input.value.toLowerCase().trim();
+                const expected = answers[`q${i}`];
+
+                if (value === expected) {
+                    score += 1;
+                    results += `✓ Q${i}: Correct! (${expected})<br>`;
+                } else {
+                    results += `✗ Q${i}: Réponse correcte = ${expected}<br>`;
+                }
+            }
+
+            testScore = score;
+            const percentage = Math.round((score / total) * 100);
+
+            document.getElementById('scoreBox').innerHTML = `Score: ${score}/${total} (${percentage}%)`;
+            document.getElementById('detailResults').innerHTML = results;
+            document.getElementById('results').classList.add('show');
+            document.getElementById('whatsappBtn').style.display = 'flex';
+
+            window.scrollTo({ top: document.getElementById('results').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function shareViaWhatsApp() {
+            const score = testScore;
+            const total = 10;
+            const percentage = Math.round((score / total) * 100);
+            const message = encodeURIComponent(
+                `Test Conjugaison - Présent ✓\n\n` +
+                `Résultat: ${score}/${total} (${percentage}%)\n\n` +
+                `Merci Bhim! 🇫🇷`
+            );
+            window.open(`https://wa.me/33675574643?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>

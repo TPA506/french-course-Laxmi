@@ -1,0 +1,410 @@
+---
+layout: default
+title: Test - Leçon 3 - France et francophonie
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Leçon 3 - France et francophonie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE5CC 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .page-header {
+            background: linear-gradient(135deg, #FFB84D 0%, #FF9800 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .page-header h1 { font-family: 'Baloo 2', sans-serif; font-size: 28px; margin-bottom: 5px; }
+        .page-header p { font-size: 14px; opacity: 0.9; }
+        .section-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 18px;
+            background: #FF9800;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+        .exercise {
+            background: #F9F9F9;
+            padding: 20px;
+            border-left: 4px solid #FFD700;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .exercise-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .question {
+            background: #FFF9F0;
+            padding: 12px;
+            margin: 10px 0;
+            border-left: 3px solid #FF8C00;
+            border-radius: 4px;
+        }
+        .dialogue-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin: 8px 0;
+        }
+        .play-btn {
+            flex-shrink: 0;
+            border: none;
+            background: #FF9800;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-btn:hover { background: #FF8C00; }
+        .play-btn.playing { background: #FF6F00; }
+        input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            border: 2px solid #FFD700;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Nunito', sans-serif;
+            margin-top: 5px;
+        }
+        .results {
+            display: none;
+            background: #F0FFF0;
+            border: 2px solid #4CAF50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .results.show { display: block; }
+        .score-box {
+            background: white;
+            border: 2px solid #FF9800;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FF8C00;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            background: #FF9800;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover { background: #FF8C00; transform: translateY(-2px); }
+        .whatsapp-btn {
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .whatsapp-btn:hover { background: #1FAB56; }
+        .back-link { margin-top: 30px; text-align: center; }
+        .back-link a { color: #FF9800; text-decoration: none; font-weight: 600; }
+        .voice-select { text-align: center; margin-bottom: 20px; background: #FFF0E6; padding: 10px; border-radius: 5px; }
+        .voice-select select { padding: 6px; border-radius: 4px; border: 1px solid #FF9800; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>🎯 Test - Leçon 3</h1>
+            <p>Parler de la France et de la francophonie</p>
+        </div>
+
+        <div class="voice-select">
+            🔊 <strong>Voix:</strong> <select id="voiceSelect"></select>
+        </div>
+
+        <form id="testForm">
+            <div class="section-title">Question 1: Écoutez et identifiez les pays</div>
+            <div class="exercise">
+                <div class="exercise-title">Écoutez le nom du pays et écrivez son continent</div>
+                
+                <div class="question">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Pays 1:</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('La Belgique', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q1" placeholder="Continent? (Afrique, Asie, Europe, Amérique)...">
+                </div>
+
+                <div class="question">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Pays 2:</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Le Sénégal', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q2" placeholder="Continent?">
+                </div>
+
+                <div class="question">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Pays 3:</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Le Viêtnam', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q3" placeholder="Continent?">
+                </div>
+            </div>
+
+            <div class="section-title">Question 2: Écoutez les spécialités françaises</div>
+            <div class="exercise">
+                <div class="exercise-title">Écoutez la spécialité et écrivez-la en français</div>
+                
+                <div class="question">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Spécialité 1:</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('une baguette', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q4" placeholder="Écrivez la spécialité...">
+                </div>
+
+                <div class="question">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Spécialité 2:</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('un croissant', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q5" placeholder="Écrivez la spécialité...">
+                </div>
+            </div>
+
+            <div class="section-title">Question 3: Associez pays et capital</div>
+            <div class="exercise">
+                <div class="exercise-title">Écoutez le pays et écrivez la capitale</div>
+                
+                <div class="question">
+                    <div style="font-weight: 600; margin-bottom: 8px;">1. Suisse:</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('La Suisse', this)">▶️</button>
+                        <span>Capitale?</span>
+                    </div>
+                    <input type="text" id="q6" placeholder="Capitale de la Suisse...">
+                </div>
+
+                <div class="question">
+                    <div style="font-weight: 600; margin-bottom: 8px;">2. Canada:</div>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('Le Canada', this)">▶️</button>
+                        <span>Capitale?</span>
+                    </div>
+                    <input type="text" id="q7" placeholder="Capitale du Canada...">
+                </div>
+            </div>
+
+            <div class="section-title">Question 4: Qu'est-ce que la francophonie?</div>
+            <div class="exercise">
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">Écoutez et cochez la bonne réponse:</p>
+                    <div class="dialogue-item">
+                        <button type="button" class="play-btn" onclick="speak('La francophonie est l ensemble des pays où le français est parlé', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <p style="margin-top: 10px;"><strong>La francophonie c'est:</strong></p>
+                    <input type="text" id="q8" placeholder="Écrivez votre réponse..." style="max-width: 100%;">
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="button" onclick="checkAnswers()">📋 Vérifier les réponses</button>
+                <button type="button" class="whatsapp-btn" onclick="shareViaWhatsApp()" id="whatsappBtn" style="display: none;">
+                    📱 Envoyer via WhatsApp
+                </button>
+            </div>
+        </form>
+
+        <div class="results" id="results">
+            <h3 style="color: #4CAF50; margin-bottom: 15px;">✓ Résultats du test</h3>
+            <div class="score-box" id="scoreBox"></div>
+            <div id="detailResults"></div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Retour au menu principal</a>
+        </div>
+    </div>
+
+    <script>
+        // Voice synthesis
+        let voices = [];
+        function loadVoices() {
+            voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('fr'));
+            const select = document.getElementById('voiceSelect');
+            select.innerHTML = '';
+            if (voices.length === 0) {
+                select.innerHTML = '<option>Voix française non trouvée</option>';
+                return;
+            }
+            voices.forEach((v, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = v.name;
+                select.appendChild(opt);
+            });
+        }
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        function speak(text, btn) {
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const select = document.getElementById('voiceSelect');
+            if (voices.length > 0) {
+                utterance.voice = voices[select.value] || voices[0];
+            }
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.9;
+            if (btn) {
+                btn.classList.add('playing');
+                utterance.onend = () => btn.classList.remove('playing');
+            }
+            speechSynthesis.speak(utterance);
+        }
+
+        let testScore = 0;
+
+        function checkAnswers() {
+            let score = 0;
+            let total = 8;
+            let results = '';
+
+            // Q1-Q3: Continents
+            const q1 = document.getElementById('q1').value.toLowerCase().trim();
+            const q2 = document.getElementById('q2').value.toLowerCase().trim();
+            const q3 = document.getElementById('q3').value.toLowerCase().trim();
+
+            if (q1 === 'europe' || q1 === 'l\'europe') {
+                score += 1;
+                results += '✓ Q1: Belgique = Europe<br>';
+            } else {
+                results += '✗ Q1: Belgique est en Europe<br>';
+            }
+
+            if (q2 === 'afrique' || q2 === 'l\'afrique') {
+                score += 1;
+                results += '✓ Q2: Sénégal = Afrique<br>';
+            } else {
+                results += '✗ Q2: Sénégal est en Afrique<br>';
+            }
+
+            if (q3 === 'asie' || q3 === 'l\'asie') {
+                score += 1;
+                results += '✓ Q3: Viêtnam = Asie<br>';
+            } else {
+                results += '✗ Q3: Viêtnam est en Asie<br>';
+            }
+
+            // Q4-Q5: Spécialités
+            const q4 = document.getElementById('q4').value.toLowerCase().trim();
+            const q5 = document.getElementById('q5').value.toLowerCase().trim();
+
+            if (q4 === 'une baguette' || q4 === 'baguette') {
+                score += 1;
+                results += '✓ Q4: Correct!<br>';
+            } else {
+                results += '✗ Q4: Réponse = une baguette<br>';
+            }
+
+            if (q5 === 'un croissant' || q5 === 'croissant') {
+                score += 1;
+                results += '✓ Q5: Correct!<br>';
+            } else {
+                results += '✗ Q5: Réponse = un croissant<br>';
+            }
+
+            // Q6-Q7: Capitales
+            const q6 = document.getElementById('q6').value.toLowerCase().trim();
+            const q7 = document.getElementById('q7').value.toLowerCase().trim();
+
+            if (q6 === 'berne' || q6 === 'lausanne') {
+                score += 1;
+                results += '✓ Q6: Suisse = Berne (ou Lausanne)<br>';
+            } else {
+                results += '✗ Q6: Capitale de Suisse = Berne<br>';
+            }
+
+            if (q7 === 'ottawa') {
+                score += 1;
+                results += '✓ Q7: Canada = Ottawa<br>';
+            } else {
+                results += '✗ Q7: Capitale de Canada = Ottawa<br>';
+            }
+
+            // Q8: Francophonie
+            const q8 = document.getElementById('q8').value.toLowerCase().trim();
+            if (q8.includes('pays') && q8.includes('français')) {
+                score += 1;
+                results += '✓ Q8: Bon! La francophonie = pays francophones<br>';
+            } else {
+                results += '✗ Q8: La francophonie = ensemble des pays où on parle français<br>';
+            }
+
+            testScore = score;
+            const percentage = Math.round((score / total) * 100);
+
+            document.getElementById('scoreBox').innerHTML = `Score: ${score}/${total} (${percentage}%)`;
+            document.getElementById('detailResults').innerHTML = results;
+            document.getElementById('results').classList.add('show');
+            document.getElementById('whatsappBtn').style.display = 'flex';
+
+            window.scrollTo({ top: document.getElementById('results').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function shareViaWhatsApp() {
+            const score = testScore;
+            const total = 8;
+            const percentage = Math.round((score / total) * 100);
+            const message = encodeURIComponent(
+                `Test Leçon 3 - France et francophonie ✓\n\n` +
+                `Résultat: ${score}/${total} (${percentage}%)\n\n` +
+                `Merci Bhim! 🇫🇷`
+            );
+            window.open(`https://wa.me/33675574643?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>

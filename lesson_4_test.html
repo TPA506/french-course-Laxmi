@@ -1,0 +1,354 @@
+---
+layout: default
+title: Test - Leçon 4
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Leçon 4 - Se Présenter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .page-header {
+            background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .page-header h1 { font-family: 'Baloo 2', sans-serif; font-size: 28px; margin-bottom: 5px; }
+        .page-header p { font-size: 14px; opacity: 0.9; }
+        .section-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 18px;
+            background: #1976D2;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+        .exercise {
+            background: #F9F9F9;
+            padding: 20px;
+            border-left: 4px solid #81D4FA;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .exercise-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .question {
+            background: #F1F8F6;
+            padding: 12px;
+            margin: 10px 0;
+            border-left: 3px solid #1976D2;
+            border-radius: 4px;
+        }
+        .play-btn {
+            flex-shrink: 0;
+            border: none;
+            background: #1976D2;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .play-btn:hover { background: #1565C0; }
+        .play-btn.playing { background: #1B5E20; }
+        input[type="text"] {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: 2px solid #81D4FA;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Nunito', sans-serif;
+            margin-top: 5px;
+        }
+        .results {
+            display: none;
+            background: #F0FFF0;
+            border: 2px solid #4CAF50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .results.show { display: block; }
+        .score-box {
+            background: white;
+            border: 2px solid #1976D2;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #1565C0;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            background: #1976D2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover { background: #1565C0; transform: translateY(-2px); }
+        .whatsapp-btn {
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .whatsapp-btn:hover { background: #1FAB56; }
+        .back-link { margin-top: 30px; text-align: center; }
+        .back-link a { color: #1976D2; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>🎯 Test - Leçon 4</h1>
+            <p>Se Présenter - Professions, Nationalité, Description</p>
+        </div>
+
+        <form id="testForm">
+            <div class="section-title">Professions</div>
+            <div class="exercise">
+                <div class="exercise-title">Complétez avec la bonne profession</div>
+                
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">1. Je suis _________ (doctor)</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('Je suis docteur', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q1" placeholder="Profession...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">2. Elle est _________ (teacher)</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('Elle est professeur', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q2" placeholder="Profession...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">3. Ils sont _________ (engineers)</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('Ils sont ingénieurs', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q3" placeholder="Profession...">
+                </div>
+            </div>
+
+            <div class="section-title">Nationalités</div>
+            <div class="exercise">
+                <div class="exercise-title">Quelle est leur nationalité?</div>
+                
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">4. Il est _________ (French)</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('Il est français', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q4" placeholder="Nationalité...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">5. Elle est _________ (Nepalese)</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('Elle est népalaise', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q5" placeholder="Nationalité...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">6. Nous sommes _________ (Italian)</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('Nous sommes italiens', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q6" placeholder="Nationalité...">
+                </div>
+            </div>
+
+            <div class="section-title">Description Physique</div>
+            <div class="exercise">
+                <div class="exercise-title">Décrivez physiquement</div>
+                
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">7. Je suis _________ et _________ (tall and thin)</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('Je suis grande et mince', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q7" placeholder="Deux adjectifs...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">8. J'ai les cheveux _________ et _________</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('J ai les cheveux longs et noirs', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q8" placeholder="Longs/courts et couleur...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">9. Elle a les yeux _________</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('Elle a les yeux bleus', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q9" placeholder="Couleur des yeux...">
+                </div>
+
+                <div class="question">
+                    <p style="font-weight: 600; margin-bottom: 8px;">10. Je suis _________ et j'ai un grand sourire</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <button type="button" class="play-btn" onclick="speak('Je suis blonde', this)">▶️</button>
+                        <span>Écoutez...</span>
+                    </div>
+                    <input type="text" id="q10" placeholder="Couleur de cheveux...">
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="button" onclick="checkAnswers()">📋 Vérifier les réponses</button>
+                <button type="button" class="whatsapp-btn" onclick="shareViaWhatsApp()" id="whatsappBtn" style="display: none;">
+                    📱 Envoyer via WhatsApp
+                </button>
+            </div>
+        </form>
+
+        <div class="results" id="results">
+            <h3 style="color: #1976D2; margin-bottom: 15px;">✓ Résultats du test</h3>
+            <div class="score-box" id="scoreBox"></div>
+            <div id="detailResults"></div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Retour au menu principal</a>
+        </div>
+    </div>
+
+    <script>
+        let voices = [];
+        function loadVoices() {
+            voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('fr'));
+        }
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        function speak(text, btn) {
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            if (voices.length > 0) {
+                utterance.voice = voices[0];
+            }
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.9;
+            if (btn) {
+                btn.classList.add('playing');
+                utterance.onend = () => btn.classList.remove('playing');
+            }
+            speechSynthesis.speak(utterance);
+        }
+
+        let testScore = 0;
+
+        function checkAnswers() {
+            let score = 0;
+            let total = 10;
+            let results = '';
+
+            const answers = {
+                q1: 'docteur',
+                q2: 'professeur',
+                q3: 'ingénieurs',
+                q4: 'français',
+                q5: 'népalaise',
+                q6: 'italiens',
+                q7: 'grande et mince',
+                q8: 'longs et noirs',
+                q9: 'bleus',
+                q10: 'blonde'
+            };
+
+            for (let i = 1; i <= 10; i++) {
+                const input = document.getElementById(`q${i}`);
+                const value = input.value.toLowerCase().trim();
+                const expected = answers[`q${i}`];
+
+                if (value === expected) {
+                    score += 1;
+                    results += `✓ Q${i}: Correct! (${expected})<br>`;
+                } else {
+                    results += `✗ Q${i}: Réponse correcte = ${expected}<br>`;
+                }
+            }
+
+            testScore = score;
+            const percentage = Math.round((score / total) * 100);
+
+            document.getElementById('scoreBox').innerHTML = `Score: ${score}/${total} (${percentage}%)`;
+            document.getElementById('detailResults').innerHTML = results;
+            document.getElementById('results').classList.add('show');
+            document.getElementById('whatsappBtn').style.display = 'flex';
+
+            window.scrollTo({ top: document.getElementById('results').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function shareViaWhatsApp() {
+            const score = testScore;
+            const total = 10;
+            const percentage = Math.round((score / total) * 100);
+            const message = encodeURIComponent(
+                `Test Leçon 4 - Se Présenter ✓\n\n` +
+                `Résultat: ${score}/${total} (${percentage}%)\n\n` +
+                `Merci Bhim! 🇫🇷`
+            );
+            window.open(`https://wa.me/33675574643?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>

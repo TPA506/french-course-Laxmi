@@ -72,6 +72,16 @@
   .name3d::before,.name3d::after{content:"";width:40px;height:2px;background:var(--gold);opacity:.8}
   .hint{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:12px;color:rgba(246,239,220,.72)}
 
+  /* main menu */
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+  .menu{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;margin-inline:-4px;padding:8px 4px;background:var(--paper)}
+  .menu ul{list-style:none;margin:0;padding:6px;display:flex;gap:6px;overflow-x:auto;background:var(--surface);border-radius:999px;
+    box-shadow:0 6px 18px rgba(27,35,64,0.08);scrollbar-width:none}
+  .menu a{display:block;white-space:nowrap;text-decoration:none;color:var(--ink);font-family:var(--display);font-weight:700;font-size:14px;
+    padding:8px 16px;border-radius:999px}
+  .menu a:hover{background:var(--surface-muted)}
+  .menu a.on{background:var(--ink);color:#fff}
+  section[id]{scroll-margin-top:72px}
   /* ---------- write box ---------- */
   .write{background:var(--surface);border-radius:24px;padding:22px 24px;box-shadow:0 10px 26px rgba(27,35,64,0.06);display:flex;flex-direction:column;gap:12px}
   .write label{font-family:var(--display);font-weight:700;font-size:19px}
@@ -125,7 +135,18 @@
     <p>Ton cours de français A1 · Your A1 French course</p>
   </header>
 
-  <section class="scene" id="scene" aria-label="Ascension A1 en 3D">
+  <nav class="menu" aria-label="Menu principal">
+    <ul>
+      <li><a href="#accueil" class="on">🏠 Accueil</a></li>
+      <li><a href="#lecons">📘 Leçons</a></li>
+      <li><a href="#grammaire">✏️ Grammaire</a></li>
+      <li><a href="#reviser">🎯 Réviser</a></li>
+      <li><a href="audio/player.html">🔊 Audio</a></li>
+      <li><a href="dictionnaire_2.html">📕 Dictionnaire</a></li>
+    </ul>
+  </nav>
+
+  <section class="scene" id="accueil" aria-label="Ascension A1 en 3D">
     <div class="world" id="world">
       <div class="spin">
         <div class="coin" role="img" aria-label="Logo Ascension A1"><span class="rim" style="transform:translateZ(-2px)"></span><span class="rim" style="transform:translateZ(0)"></span><span class="rim" style="transform:translateZ(2px)"></span><span class="side front"></span><span class="side back">A1</span></div>
@@ -147,7 +168,7 @@
     <small>Write any French word: it appears in 3D above. Tap a word to try it.</small>
   </form>
 
-  <section style="display:flex;flex-direction:column;gap:12px" aria-labelledby="h-lessons">
+  <section style="display:flex;flex-direction:column;gap:12px" id="lecons" aria-labelledby="h-lessons">
     <h2 class="doors-head" id="h-lessons">Les leçons · Lessons</h2>
     <p class="group-note">Une leçon à la fois : le cours, puis le test. · One lesson at a time: the course, then the test.</p>
     <ol class="lessons">
@@ -175,7 +196,7 @@
     </ol>
   </section>
 
-  <section style="display:flex;flex-direction:column;gap:12px" aria-labelledby="h-gram">
+  <section style="display:flex;flex-direction:column;gap:12px" id="grammaire" aria-labelledby="h-gram">
     <h2 class="doors-head" id="h-gram">Grammaire · Grammar</h2>
     <ul class="lessons">
       <li class="lesson"><span class="num" style="background:var(--indigo-soft)">✏️</span><div class="txt">
@@ -198,7 +219,7 @@
     </ul>
   </section>
 
-  <section style="display:flex;flex-direction:column;gap:12px" aria-labelledby="h-rev">
+  <section style="display:flex;flex-direction:column;gap:12px" id="reviser" aria-labelledby="h-rev">
     <h2 class="doors-head" id="h-rev">Réviser et pratiquer · Review and practise</h2>
     <nav class="doors">
       <a class="door" href="cours-niveau1.html" style="background:var(--teal-soft)"><span class="ic">📘</span><div><b>Cours — Niveau 1</b><span>Salutations, nombres, couleurs</span></div></a>
@@ -267,7 +288,7 @@
   input.addEventListener('input', function(){ render(input.value); });
 
   // drag / tilt to turn
-  var scene = document.getElementById('scene'), world = document.getElementById('world');
+  var scene = document.getElementById('accueil'), world = document.getElementById('world');
   var rx = 0, ry = 0, dragging = false, sx = 0, sy = 0, bx = 0, by = 0;
   function apply(){ world.style.transform = 'rotateX(' + rx + 'deg) rotateY(' + ry + 'deg)'; }
   scene.addEventListener('pointerdown', function(e){ dragging = true; sx = e.clientX; sy = e.clientY; bx = rx; by = ry; scene.style.cursor = 'grabbing'; });
@@ -280,6 +301,15 @@
   window.addEventListener('pointerup', function(){ dragging = false; scene.style.cursor = 'grab'; });
 
   render(input.value);
+
+  // highlight the menu item of the section in view
+  var links = [].slice.call(document.querySelectorAll('.menu a[href^="#"]'));
+  function mark(){
+    var cur = 'accueil';
+    links.forEach(function(a){ var el = document.getElementById(a.getAttribute('href').slice(1)); if (el && el.getBoundingClientRect().top < 120) cur = el.id; });
+    links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + cur); });
+  }
+  window.addEventListener('scroll', mark, {passive:true}); mark();
 })();
 </script>
 </body>

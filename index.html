@@ -30,7 +30,7 @@
 
   /* ---------- 3D scene: the Ascension A1 medallion (dark green + gold, from the logo) ---------- */
   .scene{--forest:#061913;--forest-2:#0d2a21;--gold:#d4af5a;--gold-hi:#f4dc96;--gold-lo:#7a5a1e;--mint:#9fd3b8;--cream:#f6efdc;
-    position:relative;height:420px;perspective:1000px;perspective-origin:50% 40%;
+    position:relative;height:470px;perspective:1000px;perspective-origin:50% 40%;
     background:radial-gradient(120% 90% at 50% 30%, var(--forest-2), var(--forest));border-radius:26px;
     box-shadow:0 12px 32px rgba(27,35,64,0.18);overflow:hidden;touch-action:pan-y;cursor:grab;color:var(--cream)}
   .scene::before,.scene::after{content:"";position:absolute;border-radius:50%;filter:blur(60px);opacity:.22}
@@ -66,6 +66,10 @@
   .foot{text-align:center;font-size:12px;color:var(--grey-ink)}
   .foot a{color:var(--ink);font-weight:700}
 
+  .name3d{position:absolute;left:50%;top:84%;transform:translate(-50%,-50%) translateZ(20px);display:flex;align-items:center;gap:14px;
+    font-family:'Cinzel',Georgia,serif;font-weight:800;font-size:30px;letter-spacing:12px;color:var(--gold-hi);
+    text-shadow:0 1px 0 var(--gold),0 2px 0 var(--gold-lo),0 3px 0 var(--gold-lo),0 4px 0 #4a3510,0 8px 18px rgba(0,0,0,.45)}
+  .name3d::before,.name3d::after{content:"";width:40px;height:2px;background:var(--gold);opacity:.8}
   .hint{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:12px;color:rgba(246,239,220,.72)}
 
   /* ---------- write box ---------- */
@@ -109,7 +113,7 @@
   .links a.test{background:var(--ink);border-color:var(--ink);color:#fff}
   .group-note{margin:-4px 0 0;font-size:13px;color:var(--grey-ink)}
 
-  @media(max-width:480px){.doors{grid-template-columns:1fr}.scene{height:300px}.lesson{grid-template-columns:40px 1fr;gap:12px}.lesson .num{width:40px;height:40px;font-size:19px}}
+  @media(max-width:480px){.doors{grid-template-columns:1fr}.scene{height:420px}.name3d{font-size:24px;letter-spacing:8px}.lesson{grid-template-columns:40px 1fr;gap:12px}.lesson .num{width:40px;height:40px;font-size:19px}}
   @media(prefers-reduced-motion:reduce){.spin,.orbit{animation:none}.world{transition:none}}
 </style>
 </head>
@@ -126,6 +130,7 @@
       <div class="spin">
         <div class="coin" role="img" aria-label="Logo Ascension A1"><span class="rim" style="transform:translateZ(-2px)"></span><span class="rim" style="transform:translateZ(0)"></span><span class="rim" style="transform:translateZ(2px)"></span><span class="side front"></span><span class="side back">A1</span></div>
         <div class="word3d" id="word3d"></div>
+        <div class="name3d">LAXMI</div>
         <div class="orbit" id="orbit" aria-hidden="true"></div>
       </div>
     </div>

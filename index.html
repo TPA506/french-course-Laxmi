@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cours de Français A1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+  /* Layout: one centred column; a 3D word stage on top, the course doors below. Single light look, like the course pages.
+     Tokens copied from the « Cours de Français A1 » design system; the 3D stage is its HomeHero component. */
+  :root{
+    --ink:#1b3940; --paper:#fffdf8; --surface:#ffffff; --surface-muted:#f7f6f2; --line:#f0efea; --grey:var(--grey-ink); --grey-ink:#5f6478;
+    --coral:#ff6b5b; --coral-soft:#ffe4e0; --teal:#0fa3a3; --teal-soft:#dff6f5;
+    --violet:#8b5cf6; --violet-soft:#eee7fe; --amber:#f5a623; --amber-soft:#fef1da;
+    --green:#22b573; --green-soft:#def7ea; --pink:#ec4899; --pink-soft:#fce3f1; --indigo:#6366f1; --indigo-soft:#e7e7fe;
+    --display:'Baloo 2', 'Trebuchet MS', system-ui, sans-serif;
+    --body:'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;overflow-x:hidden}
+  .stage{max-width:680px;margin:0 auto;padding-block:32px 70px;
+    padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+    display:flex;flex-direction:column;gap:22px}
+
+  .top{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .badge{display:inline-block;background:var(--ink);color:var(--paper);font-family:var(--display);font-weight:700;font-size:13px;padding:6px 16px;border-radius:999px}
+  .top p{margin:0;color:var(--grey);font-size:14px}
+
+  /* ---------- 3D scene ---------- */
+  .scene{position:relative;height:340px;perspective:900px;perspective-origin:50% 40%;
+    background:var(--surface);border-radius:26px;box-shadow:0 12px 32px rgba(27,35,64,0.08);overflow:hidden;
+    touch-action:pan-y;cursor:grab}
+  .scene::before,.scene::after{content:"";position:absolute;border-radius:50%;filter:blur(50px);opacity:.28}
+  .scene::before{width:240px;height:240px;background:var(--indigo);top:-90px;left:-70px}
+  .scene::after{width:220px;height:220px;background:var(--pink);bottom:-90px;right:-60px}
+  .world{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .25s ease-out}
+  .spin{position:absolute;inset:0;transform-style:preserve-3d;animation:sway 7s ease-in-out infinite}
+  @keyframes sway{0%,100%{transform:rotateY(-18deg) rotateX(8deg)}50%{transform:rotateY(18deg) rotateX(-4deg)}}
+
+  .word3d{position:absolute;left:50%;top:50%;transform-style:preserve-3d;transform:translate(-50%,-50%)}
+  .word3d span{display:block;white-space:nowrap;font-family:var(--display);font-weight:800;line-height:1;
+    font-size:clamp(40px, 11vw, 76px);text-align:center;letter-spacing:-.5px}
+  .word3d .layer{position:absolute;inset:0;color:var(--indigo)}
+  .word3d .face{position:relative;color:var(--ink);transform:translateZ(14px);
+    background:linear-gradient(135deg,var(--indigo),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .word3d .gloss{display:block;margin-top:12px;font-family:var(--body);font-weight:700;font-size:15px;color:var(--grey);
+    letter-spacing:.3px;transform:translateZ(30px)}
+
+  .orbit{position:absolute;left:50%;top:50%;transform-style:preserve-3d;animation:orbit 16s linear infinite}
+  @keyframes orbit{from{transform:rotateX(-8deg) rotateY(0)}to{transform:rotateX(-8deg) rotateY(360deg)}}
+  .chip{position:absolute;transform-style:preserve-3d;font-family:var(--display);font-weight:700;font-size:15px;
+    padding:7px 16px;border-radius:999px;white-space:nowrap;margin:-18px 0 0 -46px;backface-visibility:visible}
+  .chip{color:var(--ink)}
+  .chip.c1{background:var(--coral-soft)}
+  .chip.c2{background:var(--teal-soft)}
+  .chip.c3{background:var(--violet-soft)}
+  .chip.c4{background:var(--amber-soft)}
+  .chip.c5{background:var(--green-soft)}
+  .chip.c6{background:var(--pink-soft)}
+  .foot{text-align:center;font-size:12px;color:var(--grey-ink)}
+  .foot a{color:var(--ink);font-weight:700}
+
+  .hint{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:12px;color:var(--grey)}
+
+  /* ---------- write box ---------- */
+  .write{background:var(--surface);border-radius:24px;padding:22px 24px;box-shadow:0 10px 26px rgba(27,35,64,0.06);display:flex;flex-direction:column;gap:12px}
+  .write label{font-family:var(--display);font-weight:700;font-size:19px}
+  .write small{color:var(--grey);font-size:12px}
+  .fill-row{display:flex;gap:10px;flex-wrap:wrap}
+  .fill-row input{flex:1 1 200px;min-width:0;border:2px solid var(--line);background:var(--surface-muted);border-radius:14px;
+    padding:14px 16px;font-family:var(--body);font-weight:700;font-size:16px;color:var(--ink)}
+  .fill-row input:focus{outline:none;border-color:var(--indigo)}
+  .fill-row button,.chips button{font-family:var(--display);font-weight:700;cursor:pointer;border:none}
+  .fill-row button{background:var(--ink);color:#fff;border-radius:14px;padding:12px 24px;font-size:14px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips button{background:var(--surface-muted);color:var(--ink);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px}
+  .chips button:hover{border-color:var(--indigo)}
+  button:focus-visible,a:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+
+  /* ---------- course doors ---------- */
+  .doors{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .door{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:14px;text-decoration:none;color:var(--ink);
+    transition:transform .15s}
+  .door:hover{transform:translateY(-2px)}
+  .door .ic{width:40px;height:40px;border-radius:12px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+  .door b{display:block;font-family:var(--display);font-weight:700;font-size:15px}
+  .door span{font-size:12px;color:var(--grey)}
+  .doors-head{font-family:var(--display);font-weight:700;font-size:19px;margin:0}
+
+  /* lessons, in course order */
+  .lessons{display:flex;flex-direction:column;gap:10px;list-style:none;margin:0;padding:0}
+  .lesson{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;background:var(--surface);
+    border-radius:20px;padding:16px;box-shadow:0 10px 26px rgba(27,35,64,0.06)}
+  .lesson .num{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-weight:800;font-size:22px;color:var(--ink)}
+  .lesson .txt{min-width:0;display:flex;flex-direction:column;gap:8px}
+  .lesson h3{margin:0;font-family:var(--display);font-weight:700;font-size:17px;line-height:1.2;text-wrap:balance}
+  .lesson h3 small{display:block;font-family:var(--body);font-weight:600;font-size:12px;color:var(--grey-ink);margin-top:2px}
+  .links{display:flex;flex-wrap:wrap;gap:6px}
+  .links a{display:inline-flex;align-items:center;gap:5px;text-decoration:none;color:var(--ink);background:var(--surface-muted);
+    border:2px solid var(--line);border-radius:999px;padding:5px 12px;font-family:var(--display);font-weight:700;font-size:13px}
+  .links a:hover{border-color:var(--indigo)}
+  .links a.test{background:var(--ink);border-color:var(--ink);color:#fff}
+  .group-note{margin:-4px 0 0;font-size:13px;color:var(--grey-ink)}
+
+  @media(max-width:480px){.doors{grid-template-columns:1fr}.scene{height:300px}.lesson{grid-template-columns:40px 1fr;gap:12px}.lesson .num{width:40px;height:40px;font-size:19px}}
+  @media(prefers-reduced-motion:reduce){.spin,.orbit{animation:none}.world{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <header class="top">
+    <span class="badge">🇫🇷 Bienvenue, Laxmi</span>
+    <p>Ton cours de français A1 · Your A1 French course</p>
+  </header>
+
+  <section class="scene" id="scene" aria-label="Mot en 3D">
+    <div class="world" id="world">
+      <div class="spin">
+        <div class="word3d" id="word3d"></div>
+        <div class="orbit" id="orbit" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="hint">Glisse le doigt ou la souris pour tourner · Drag to turn</div>
+  </section>
+
+  <form class="write" id="writeForm">
+    <label for="wordInput">Écris un mot ✍️</label>
+    <div class="fill-row">
+      <input id="wordInput" maxlength="18" autocomplete="off" placeholder="ex. Je t'aime" value="Bonjour Laxmi">
+      <button type="submit">Afficher en 3D</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <small>Write any French word: it appears in 3D above. Tap a word to try it.</small>
+  </form>
+
+  <section style="display:flex;flex-direction:column;gap:12px" aria-labelledby="h-lessons">
+    <h2 class="doors-head" id="h-lessons">Les leçons · Lessons</h2>
+    <p class="group-note">Une leçon à la fois : le cours, puis le test. · One lesson at a time: the course, then the test.</p>
+    <ol class="lessons">
+      <li class="lesson"><span class="num" style="background:var(--coral-soft)">1</span><div class="txt">
+        <h3>Saluer<small>Greetings</small></h3>
+        <div class="links"><a href="lesson_1_saluer.html">🖥️ Leçon</a><a href="Lecons_1_et_2_Cours.pdf">📄 Cours PDF</a><a class="test" href="lesson_1_test.html">🎯 Test</a></div></div></li>
+      <li class="lesson"><span class="num" style="background:var(--teal-soft)">2</span><div class="txt">
+        <h3>Épeler et compter<small>Spelling and counting</small></h3>
+        <div class="links"><a href="lesson_2_epeler_compter.html">🖥️ Leçon</a><a href="Lecons_1_et_2_Cours.pdf">📄 Cours PDF</a><a href="alphabet_test_v2.html">🔤 Test alphabet</a><a class="test" href="lesson_2_test.html">🎯 Test</a></div></div></li>
+      <li class="lesson"><span class="num" style="background:var(--violet-soft)">3</span><div class="txt">
+        <h3>La France et la francophonie<small>France and French-speaking countries</small></h3>
+        <div class="links"><a href="Lecon_3_Cours.pdf">📄 Cours PDF</a><a class="test" href="lesson_3_test.html">🎯 Test</a></div></div></li>
+      <li class="lesson"><span class="num" style="background:var(--amber-soft)">4</span><div class="txt">
+        <h3>Se présenter<small>Introducing yourself: jobs, nationality, description</small></h3>
+        <div class="links"><a href="Lecon_4_Cours.pdf">📄 Cours PDF</a><a class="test" href="lesson_4_test.html">🎯 Test</a></div></div></li>
+      <li class="lesson"><span class="num" style="background:var(--green-soft)">5</span><div class="txt">
+        <h3>Informations personnelles<small>Age, address, family, contact details</small></h3>
+        <div class="links"><a href="Lecon_5_Cours.pdf">📄 Cours PDF</a><a class="test" href="lesson_5_test.html">🎯 Test</a></div></div></li>
+      <li class="lesson"><span class="num" style="background:var(--pink-soft)">6</span><div class="txt">
+        <h3>Préciser<small>Possessives, demonstratives, quantities</small></h3>
+        <div class="links"><a href="Lecon_6_Cours.pdf">📄 Cours PDF</a><a class="test" href="lesson_6_test.html">🎯 Test</a></div></div></li>
+      <li class="lesson"><span class="num" style="background:var(--blue-soft)">7</span><div class="txt">
+        <h3>Les jours et les mois<small>Days of the week and months of the year</small></h3>
+        <div class="links"><a href="Lecon_7_Cours.pdf">📄 Cours PDF</a><a class="test" href="lesson_7_test.html">🎯 Test</a></div></div></li>
+    </ol>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px" aria-labelledby="h-gram">
+    <h2 class="doors-head" id="h-gram">Grammaire · Grammar</h2>
+    <ul class="lessons">
+      <li class="lesson"><span class="num" style="background:var(--indigo-soft)">✏️</span><div class="txt">
+        <h3>La conjugaison au présent<small>Present tense</small></h3>
+        <div class="links"><a href="Conjugaison_Cours.pdf">📄 Cours PDF</a><a class="test" href="conjugaison_test.html">🎯 Test</a></div></div></li>
+      <li class="lesson"><span class="num" style="background:var(--surface-muted)">📚</span><div class="txt">
+        <h3>10 fiches de grammaire<small>Grammar sheets, with Nepali notes (*)</small></h3>
+        <div class="links">
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/01-alphabet.md">01 Alphabet</a>
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/02-articles.md">02 Articles</a>
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/03-pronoms.md">03 Pronoms</a>
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/04-verbe-etre.md">04 Être</a>
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/05-verbe-avoir.md">05 Avoir</a>
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/06-verbes-er.md">06 Verbes -ER</a>
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/07-genre-nombre.md">07 Genre et nombre</a>
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/08-possessifs.md">08 Possessifs</a>
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/09-negation.md">09 Négation</a>
+          <a href="https://github.com/TPA506/french-course-Laxmi/blob/main/lecons/10-questions.md">10 Questions</a>
+        </div></div></li>
+    </ul>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px" aria-labelledby="h-rev">
+    <h2 class="doors-head" id="h-rev">Réviser et pratiquer · Review and practise</h2>
+    <nav class="doors">
+      <a class="door" href="cours-niveau1.html" style="background:var(--teal-soft)"><span class="ic">📘</span><div><b>Cours — Niveau 1</b><span>Salutations, nombres, couleurs</span></div></a>
+      <a class="door" href="test-francais-niveau1.html" style="background:var(--teal-soft)"><span class="ic">📝</span><div><b>Test — Niveau 1</b><span>Version 1</span></div></a>
+      <a class="door" href="test-francais-niveau1_1.html" style="background:var(--teal-soft)"><span class="ic">📝</span><div><b>Test — Niveau 1</b><span>Version 2</span></div></a>
+      <a class="door" href="cours-niveau2.html" style="background:var(--indigo-soft)"><span class="ic">📗</span><div><b>Cours — Niveau 2</b><span>Verbes, phrases, questions</span></div></a>
+      <a class="door" href="test-francais-niveau2.html" style="background:var(--indigo-soft)"><span class="ic">🎯</span><div><b>Test — Niveau 2</b><span>Vérifie tes progrès</span></div></a>
+      <a class="door" href="test-vocabulaire.html" style="background:var(--violet-soft)"><span class="ic">🧩</span><div><b>Vocabulaire par thème</b><span>Test</span></div></a>
+      <a class="door" href="test-ecrit_1.html" style="background:var(--coral-soft)"><span class="ic">✍️</span><div><b>Test écrit</b><span>Vocabulaire</span></div></a>
+      <a class="door" href="test-ecrit-ENG-FR.html" style="background:var(--coral-soft)"><span class="ic">✍️</span><div><b>Test écrit</b><span>Anglais → français</span></div></a>
+      <a class="door" href="reading_practice.html" style="background:var(--amber-soft)"><span class="ic">📖</span><div><b>Lecture avec audio</b><span>Lire et écouter</span></div></a>
+      <a class="door" href="conversation.html" style="background:var(--pink-soft)"><span class="ic">💬</span><div><b>Conversations</b><span>Pratique orale</span></div></a>
+      <a class="door" href="audio/player.html" style="background:var(--amber-soft)"><span class="ic">🔊</span><div><b>Écouter</b><span>Audio des leçons</span></div></a>
+      <a class="door" href="dictionnaire_2.html" style="background:var(--green-soft)"><span class="ic">📕</span><div><b>Dictionnaire</b><span>Français → anglais</span></div></a>
+    </nav>
+  </section>
+
+  <p class="foot">Couleurs et styles : <a href="https://claude.ai/artifact/8ivfbpx8ADfUG6BJstLbBF">design system « Cours de Français A1 »</a></p>
+</div>
+
+<script>
+(function(){
+  var GLOSS = {"bonjour laxmi":"Hello Laxmi","bonjour":"Hello","merci":"Thank you","salut":"Hi","bonsoir":"Good evening",
+    "je t'aime":"I love you","bienvenue":"Welcome","au revoir":"Goodbye","bravo":"Well done","courage !":"Keep going!","la france":"France"};
+  var LAYERS = 10;
+  var word3d = document.getElementById('word3d');
+
+  function render(text){
+    text = (text || '').trim() || 'Bonjour';
+    word3d.innerHTML = '';
+    for (var i = LAYERS - 1; i >= 0; i--){
+      var s = document.createElement('span');
+      s.className = 'layer'; s.textContent = text;
+      s.style.opacity = (0.25 + i * 0.05).toFixed(2);
+      s.style.transform = 'translateZ(' + (i * 1.4) + 'px)';
+      s.setAttribute('aria-hidden','true');
+      word3d.appendChild(s);
+    }
+    var face = document.createElement('span');
+    face.className = 'face'; face.textContent = text;
+    word3d.appendChild(face);
+    var g = GLOSS[text.toLowerCase()];
+    if (g){ var gl = document.createElement('span'); gl.className = 'gloss'; gl.textContent = g; word3d.appendChild(gl); }
+  }
+
+  // orbiting words
+  var orbitWords = [['Merci','c1'],['Salut','c2'],['Bonsoir','c3'],['Bravo','c4'],['Au revoir','c5'],['Bienvenue','c6']];
+  var orbit = document.getElementById('orbit');
+  orbitWords.forEach(function(w, i){
+    var c = document.createElement('span');
+    c.className = 'chip ' + w[1]; c.textContent = w[0];
+    c.style.transform = 'rotateY(' + (i * 60) + 'deg) translateZ(' + (window.innerWidth < 480 ? 140 : 210) + 'px)';
+    orbit.appendChild(c);
+  });
+
+  // suggestion chips
+  var chips = document.getElementById('chips');
+  ['Bonjour Laxmi','Je t\'aime','Bienvenue','Merci','Courage !','La France'].forEach(function(t){
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = t;
+    b.addEventListener('click', function(){ input.value = t; render(t); });
+    chips.appendChild(b);
+  });
+
+  var input = document.getElementById('wordInput');
+  document.getElementById('writeForm').addEventListener('submit', function(e){ e.preventDefault(); render(input.value); });
+  input.addEventListener('input', function(){ render(input.value); });
+
+  // drag / tilt to turn
+  var scene = document.getElementById('scene'), world = document.getElementById('world');
+  var rx = 0, ry = 0, dragging = false, sx = 0, sy = 0, bx = 0, by = 0;
+  function apply(){ world.style.transform = 'rotateX(' + rx + 'deg) rotateY(' + ry + 'deg)'; }
+  scene.addEventListener('pointerdown', function(e){ dragging = true; sx = e.clientX; sy = e.clientY; bx = rx; by = ry; scene.style.cursor = 'grabbing'; });
+  window.addEventListener('pointermove', function(e){
+    if (!dragging) return;
+    ry = by + (e.clientX - sx) * 0.4;
+    rx = Math.max(-35, Math.min(35, bx - (e.clientY - sy) * 0.3));
+    apply();
+  });
+  window.addEventListener('pointerup', function(){ dragging = false; scene.style.cursor = 'grab'; });
+
+  render(input.value);
+})();
+</script>
+</body>
+</html>

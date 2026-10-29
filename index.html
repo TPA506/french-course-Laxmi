@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cours de Français A1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Cinzel:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
   /* Layout: one centred column; a 3D word stage on top, the course doors below. Single light look, like the course pages.
      Tokens copied from the « Cours de Français A1 » design system; the 3D stage is its HomeHero component. */
@@ -28,41 +28,45 @@
   .badge{display:inline-block;background:var(--ink);color:var(--paper);font-family:var(--display);font-weight:700;font-size:13px;padding:6px 16px;border-radius:999px}
   .top p{margin:0;color:var(--grey);font-size:14px}
 
-  /* ---------- 3D scene ---------- */
-  .scene{position:relative;height:340px;perspective:900px;perspective-origin:50% 40%;
-    background:var(--surface);border-radius:26px;box-shadow:0 12px 32px rgba(27,35,64,0.08);overflow:hidden;
-    touch-action:pan-y;cursor:grab}
-  .scene::before,.scene::after{content:"";position:absolute;border-radius:50%;filter:blur(50px);opacity:.28}
-  .scene::before{width:240px;height:240px;background:var(--indigo);top:-90px;left:-70px}
-  .scene::after{width:220px;height:220px;background:var(--pink);bottom:-90px;right:-60px}
+  /* ---------- 3D scene: the Ascension A1 medallion (dark green + gold, from the logo) ---------- */
+  .scene{--forest:#061913;--forest-2:#0d2a21;--gold:#d4af5a;--gold-hi:#f4dc96;--gold-lo:#7a5a1e;--mint:#9fd3b8;--cream:#f6efdc;
+    position:relative;height:420px;perspective:1000px;perspective-origin:50% 40%;
+    background:radial-gradient(120% 90% at 50% 30%, var(--forest-2), var(--forest));border-radius:26px;
+    box-shadow:0 12px 32px rgba(27,35,64,0.18);overflow:hidden;touch-action:pan-y;cursor:grab;color:var(--cream)}
+  .scene::before,.scene::after{content:"";position:absolute;border-radius:50%;filter:blur(60px);opacity:.22}
+  .scene::before{width:260px;height:260px;background:var(--gold);top:-110px;left:-80px}
+  .scene::after{width:240px;height:240px;background:var(--mint);bottom:-110px;right:-70px}
   .world{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .25s ease-out}
-  .spin{position:absolute;inset:0;transform-style:preserve-3d;animation:sway 7s ease-in-out infinite}
-  @keyframes sway{0%,100%{transform:rotateY(-18deg) rotateX(8deg)}50%{transform:rotateY(18deg) rotateX(-4deg)}}
+  .spin{position:absolute;inset:0;transform-style:preserve-3d;animation:sway 8s ease-in-out infinite}
+  @keyframes sway{0%,100%{transform:rotateY(-16deg) rotateX(6deg)}50%{transform:rotateY(16deg) rotateX(-3deg)}}
 
-  .word3d{position:absolute;left:50%;top:50%;transform-style:preserve-3d;transform:translate(-50%,-50%)}
-  .word3d span{display:block;white-space:nowrap;font-family:var(--display);font-weight:800;line-height:1;
-    font-size:clamp(40px, 11vw, 76px);text-align:center;letter-spacing:-.5px}
-  .word3d .layer{position:absolute;inset:0;color:var(--indigo)}
-  .word3d .face{position:relative;color:var(--ink);transform:translateZ(14px);
-    background:linear-gradient(135deg,var(--indigo),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .word3d .gloss{display:block;margin-top:12px;font-family:var(--body);font-weight:700;font-size:15px;color:var(--grey);
-    letter-spacing:.3px;transform:translateZ(30px)}
+  /* the medallion: logo on the front, gold A1 on the back, a thin gold rim */
+  .coin{position:absolute;left:50%;top:30%;width:150px;height:150px;margin:-75px 0 0 -75px;transform-style:preserve-3d;animation:flip 9s linear infinite}
+  @keyframes flip{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+  .coin .side{position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;border:3px solid var(--gold);
+    box-shadow:0 0 0 2px var(--gold-lo), 0 0 30px rgba(212,175,90,.35)}
+  .coin .front{background:url("images/ascension-a1.jpg") center/cover var(--forest);transform:translateZ(6px)}
+  .coin .back{background:var(--forest-2);transform:rotateY(180deg) translateZ(6px);display:flex;align-items:center;justify-content:center;
+    font-family:'Cinzel',Georgia,serif;font-weight:800;font-size:56px;color:var(--gold)}
+  .coin .rim{position:absolute;inset:0;border-radius:50%;background:var(--gold-lo)}
 
-  .orbit{position:absolute;left:50%;top:50%;transform-style:preserve-3d;animation:orbit 16s linear infinite}
-  @keyframes orbit{from{transform:rotateX(-8deg) rotateY(0)}to{transform:rotateX(-8deg) rotateY(360deg)}}
-  .chip{position:absolute;transform-style:preserve-3d;font-family:var(--display);font-weight:700;font-size:15px;
-    padding:7px 16px;border-radius:999px;white-space:nowrap;margin:-18px 0 0 -46px;backface-visibility:visible}
-  .chip{color:var(--ink)}
-  .chip.c1{background:var(--coral-soft)}
-  .chip.c2{background:var(--teal-soft)}
-  .chip.c3{background:var(--violet-soft)}
-  .chip.c4{background:var(--amber-soft)}
-  .chip.c5{background:var(--green-soft)}
-  .chip.c6{background:var(--pink-soft)}
+  .word3d{position:absolute;left:50%;top:68%;transform-style:preserve-3d;transform:translate(-50%,-50%);text-align:center}
+  .word3d span{display:block;white-space:nowrap;font-family:'Cinzel',Georgia,serif;font-weight:800;line-height:1;
+    font-size:clamp(32px, 9vw, 60px);text-align:center;letter-spacing:1px}
+  .word3d .layer{position:absolute;left:0;right:0;top:0;color:var(--gold-lo)}
+  .word3d .face{position:relative;transform:translateZ(16px);
+    background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,#b08a3a);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .word3d .gloss{margin-top:12px;font-family:var(--body);font-weight:700;font-size:13px;color:var(--mint);
+    letter-spacing:2px;text-transform:uppercase;transform:translateZ(26px);white-space:normal!important;font-size:12px!important;font-family:var(--body)!important}
+
+  .orbit{position:absolute;left:50%;top:30%;transform-style:preserve-3d;animation:orbit 18s linear infinite}
+  @keyframes orbit{from{transform:rotateX(-10deg) rotateY(0)}to{transform:rotateX(-10deg) rotateY(-360deg)}}
+  .chip{position:absolute;font-family:var(--display);font-weight:700;font-size:14px;padding:6px 14px;border-radius:999px;
+    white-space:nowrap;margin:-16px 0 0 -42px;background:rgba(246,239,220,.1);color:var(--cream);border:1px solid rgba(212,175,90,.55)}
   .foot{text-align:center;font-size:12px;color:var(--grey-ink)}
   .foot a{color:var(--ink);font-weight:700}
 
-  .hint{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:12px;color:var(--grey)}
+  .hint{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:12px;color:rgba(246,239,220,.72)}
 
   /* ---------- write box ---------- */
   .write{background:var(--surface);border-radius:24px;padding:22px 24px;box-shadow:0 10px 26px rgba(27,35,64,0.06);display:flex;flex-direction:column;gap:12px}
@@ -117,9 +121,10 @@
     <p>Ton cours de français A1 · Your A1 French course</p>
   </header>
 
-  <section class="scene" id="scene" aria-label="Mot en 3D">
+  <section class="scene" id="scene" aria-label="Ascension A1 en 3D">
     <div class="world" id="world">
       <div class="spin">
+        <div class="coin" role="img" aria-label="Logo Ascension A1"><span class="rim" style="transform:translateZ(-2px)"></span><span class="rim" style="transform:translateZ(0)"></span><span class="rim" style="transform:translateZ(2px)"></span><span class="side front"></span><span class="side back">A1</span></div>
         <div class="word3d" id="word3d"></div>
         <div class="orbit" id="orbit" aria-hidden="true"></div>
       </div>
@@ -130,7 +135,7 @@
   <form class="write" id="writeForm">
     <label for="wordInput">Écris un mot ✍️</label>
     <div class="fill-row">
-      <input id="wordInput" maxlength="18" autocomplete="off" placeholder="ex. Je t'aime" value="Bonjour Laxmi">
+      <input id="wordInput" maxlength="16" autocomplete="off" placeholder="ex. Je t'aime" value="Ascension A1">
       <button type="submit">Afficher en 3D</button>
     </div>
     <div class="chips" id="chips"></div>
@@ -211,7 +216,7 @@
 
 <script>
 (function(){
-  var GLOSS = {"bonjour laxmi":"Hello Laxmi","bonjour":"Hello","merci":"Thank you","salut":"Hi","bonsoir":"Good evening",
+  var GLOSS = {"ascension a1":"Apprendre • Comprendre • Progresser","bonjour laxmi":"Hello Laxmi","bonjour":"Hello","merci":"Thank you","salut":"Hi","bonsoir":"Good evening",
     "je t'aime":"I love you","bienvenue":"Welcome","au revoir":"Goodbye","bravo":"Well done","courage !":"Keep going!","la france":"France"};
   var LAYERS = 10;
   var word3d = document.getElementById('word3d');
@@ -222,7 +227,7 @@
     for (var i = LAYERS - 1; i >= 0; i--){
       var s = document.createElement('span');
       s.className = 'layer'; s.textContent = text;
-      s.style.opacity = (0.25 + i * 0.05).toFixed(2);
+      s.style.opacity = (0.55 + i * 0.045).toFixed(2);
       s.style.transform = 'translateZ(' + (i * 1.4) + 'px)';
       s.setAttribute('aria-hidden','true');
       word3d.appendChild(s);
@@ -240,13 +245,13 @@
   orbitWords.forEach(function(w, i){
     var c = document.createElement('span');
     c.className = 'chip ' + w[1]; c.textContent = w[0];
-    c.style.transform = 'rotateY(' + (i * 60) + 'deg) translateZ(' + (window.innerWidth < 480 ? 140 : 210) + 'px)';
+    c.style.transform = 'rotateY(' + (i * 60) + 'deg) translateZ(' + (window.innerWidth < 480 ? 120 : 175) + 'px)';
     orbit.appendChild(c);
   });
 
   // suggestion chips
   var chips = document.getElementById('chips');
-  ['Bonjour Laxmi','Je t\'aime','Bienvenue','Merci','Courage !','La France'].forEach(function(t){
+  ['Ascension A1','Bonjour Laxmi','Je t\'aime','Bienvenue','Merci','Courage !','La France'].forEach(function(t){
     var b = document.createElement('button'); b.type = 'button'; b.textContent = t;
     b.addEventListener('click', function(){ input.value = t; render(t); });
     chips.appendChild(b);
